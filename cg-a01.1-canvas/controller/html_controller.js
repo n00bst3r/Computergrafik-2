@@ -12,8 +12,8 @@
 
 
 /* requireJS module definition */
-define(["jquery", "Line", "Circle"],
-    (function($, Line, Circle) {
+define(["jquery", "Line", "Circle","Point"],
+    (function($, Line, Circle, Point) {
         "use strict";
 
         /*
@@ -99,6 +99,26 @@ define(["jquery", "Line", "Circle"],
                 }
 
             }));
+
+            /*
+             * Event Handler for the NewPoint Button
+             */
+            $("#btnNewPoint").click(function() {
+                // create the actual line and add it to the scene
+                var style3 = {
+                    width: Math.floor(Math.random()*3)+1,
+                    color: randomColor()
+                };
+
+
+                var point = new Point([randomX(), randomY()], style3);
+                scene.addObjects([point]);
+
+                // deselect all objects, then select the newly created object
+                sceneController.deselect();
+                sceneController.select(point); // this will also redraw
+            });
+
 
 
         };
