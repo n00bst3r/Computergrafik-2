@@ -46,6 +46,40 @@ define(["util", "vec2", "Scene", "PointDragger"],
 
             };
 
+            // test whether the mouse position is on this line segment
+            this.isHit = function(context,mousePos) {
+
+                // what is my current position?
+                var middle = this.middle;
+
+                // check whether distance between mouse and dragger's middle
+                // is less or equal ( radius + (line width)/2 )
+                var dx = mousePos[0] - middle[0];
+                var dy = mousePos[1] - middle[1];
+                var radius = this.radius;
+                return (dx*dx + dy*dy) <= (radius*radius);
+
+            };
+
+            this.createDraggers = function() {
+
+                var draggerStyle = { radius:4, color: this.lineStyle.color, width:0, fill:true }
+                var draggers = [];
+
+                //dragge for middle Position
+                var _circle = this;
+                var getP0 = function() { return _circle.middle; };
+                var setP0 = function(dragEvent) { _circle.middle = dragEvent.position; };
+                draggers.push( new PointDragger(getP0, setP0, draggerStyle) );
+
+                // dragger for change the radius
+                var getP1 = function() { return [_circle.middle[0],(_circle.middle[1] - _circle.radius)]; };
+                var setP1 = function(dragEvent) { _circle.radius = Math.abs(dragEvent.position[1] - _circle.middle[1]) ;};
+                draggers.push( new PointDragger(getP1, setP1, draggerStyle) );
+
+                return draggers;
+            };
+
         };
 
         // this module only exports the constructor for StraightLine objects
