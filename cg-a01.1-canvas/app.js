@@ -1,12 +1,5 @@
+
 /*
- *
- * Module main: CG2 Aufgabe 1, Winter 2013/2014
- * (C)opyright Hartmut Schirmacher, hschirmacher.beuth-hochschule.de 
- * changes by Kristian Hildebrand, khildebrand@beuth-hochschule.de
- */
-
-
-/* 
  *  RequireJS alias/path configuration (http://requirejs.org/)
  */
 
@@ -27,7 +20,14 @@ requirejs.config({
 
         "Scene" : "./scene/scene",
         "Line" : "./scene/line",
+        "Circle" : "./scene/circle",
+        "Point" : "./scene/point",
         "PointDragger" : "./scene/point_dragger",
+
+        "BoundingBox" : "./kdtree/boundingbox",
+        "KdNode" : "./kdtree/kdnode",
+        "KdTree" : "./kdtree/kdtree",
+        "kdutil" : "./kdtree/kdutil",
 
         "vec2" : "./math/vec2",
 
@@ -91,5 +91,4 @@ define(["jquery", "gl-matrix", "util",
         })); // $(document).ready()
 
     })); // define module
-        
 

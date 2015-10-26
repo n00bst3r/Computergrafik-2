@@ -1,19 +1,19 @@
 /*
- * JavaScript / Canvas teaching framwork 
+ * JavaScript / Canvas teaching framwork
  * (C)opyright Hartmut Schirmacher, hschirmacher.beuth-hochschule.de
  * changes by Kristian Hildebrand, khildebrand@beuth-hochschule.de
  *
  * Module: html_controller
  *
- * Defines callback functions for communicating with various 
+ * Defines callback functions for communicating with various
  * HTML elements on the page, e.g. buttons and parameter fields.
  *
  */
 
 
 /* requireJS module definition */
-define(["jquery", "Line"],
-    (function($, Line) {
+define(["jquery", "Line", "Circle"],
+    (function($, Line, Circle) {
         "use strict";
 
         /*
@@ -31,6 +31,11 @@ define(["jquery", "Line"],
             // generate random Y coordinate within the canvas
             var randomY = function() {
                 return Math.floor(Math.random()*(context.canvas.height-10))+5;
+            };
+
+            // generate random radius within the canvas
+            var randomR = function() {
+                return Math.floor(Math.random() * ((context.canvas.height / 2) - 10)) + 5;
             };
 
             // generate random color in hex notation
@@ -80,14 +85,18 @@ define(["jquery", "Line"],
                     color: randomColor()
                 };
 
-                var circle = new Circle( [randomX(),randomY()],
-                    [randomX(),randomY()],
-                    style2 );
+                var circle = new Circle([randomX(), randomY()], randomR(), style2);
+
                 scene.addObjects([circle]);
 
                 // deselect all objects, then select the newly created object
                 sceneController.deselect();
                 sceneController.select(circle); // this will also redraw
+
+                if(sceneController.getSelectedObject().r != undefined){
+                    console.log(sceneController.getSelectedObject());
+                    $("#pRadius").show();
+                }
 
             }));
 
@@ -102,4 +111,4 @@ define(["jquery", "Line"],
 
 
 
-            
+
