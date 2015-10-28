@@ -119,6 +119,55 @@ define(["jquery", "Line", "Circle","Point"],
                 sceneController.select(point); // this will also redraw
             });
 
+            sceneController.onSelection(function() {
+                var object = this.getSelectedObject();
+                $("#inputLineWidth").val(object.lineStyle.width);
+                $("#inputColor").val(object.lineStyle.color);
+                if (object instanceof Circle) {
+                    $("#inputRadius").prop("disabled", false);
+                    $("#inputRadius").val(object.radius);
+                } else {
+                    $("#inputRadius").val(0);
+                    $("#inputRadius").prop("disabled", true);
+                }
+            });
+
+            /**
+             * Event handler that changes the color of the selected object if the color of
+             * the input field is changed.
+             */
+            $("#inputColor").change(function() {
+                var object = sceneController.getSelectedObject();
+                object.lineStyle.color = this.value;
+                // deselect all objects, then select the newly created object
+                sceneController.deselect();
+                sceneController.select(object);
+            });
+
+            /**
+             * Event handler that changes the width of the selected object if the value of
+             * the input field is changed.
+             */
+            $("#inputLineWidth").change(function() {
+                var object = sceneController.getSelectedObject();
+                object.lineStyle.width = this.value;
+                // deselect all objects, then select the newly created object
+                sceneController.deselect();
+                sceneController.select(object);
+            });
+
+            /**
+             * Event handler that changes the radius of the selected circle if the value of
+             * the input field is changed.
+             */
+            $("#inputRadius").change(function() {
+                var object = sceneController.getSelectedObject();
+                object.radius = this.value;
+                // deselect all objects, then select the newly created object
+                sceneController.deselect();
+                sceneController.select(object);
+            });
+
 
 
         };
