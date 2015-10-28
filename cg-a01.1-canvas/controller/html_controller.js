@@ -127,7 +127,7 @@ define(["jquery", "Line", "Circle","Point"],
                     $("#inputRadius").prop("disabled", false);
                     $("#inputRadius").val(object.radius);
                 } else {
-                    $("#inputRadius").val(0);
+                    $("#inputRadius").val(0); //Hier wird aktiv gesetzt oder auch nicht. 
                     $("#inputRadius").prop("disabled", true);
                 }
             });
