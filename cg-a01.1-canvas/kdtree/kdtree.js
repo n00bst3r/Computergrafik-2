@@ -35,20 +35,28 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
 
             this.build = function(pointList, dim, parent, isLeft) {
 
+
+                // Rekursionsanker:
+                if(pointList.length === 0){
+                    return;
+                }
+
                 // IMPLEMENT!
                 // create new node
                 var node = new KdNode(dim);
                 // find median position in pointList
                 var medPos = KdUtil.median(pointList,dim);
                 var medPoint = pointList[medPos];
+                var nextAxis;
                 // compute next axis
-                if(nextAxis=='x'){
-                    nextAxis == 'y'
+                if(dim==0){
+                    nextAxis == 1;
                 }else{
-                    nextAxis == "x";
+                    nextAxis == 0;
                 }
                 // set point in node
                 node.dim = nextAxis;
+                node.point = medPoint;
                 // compute bounding box for node
                 // check if node is root (has no parent)
                 // 
@@ -56,15 +64,30 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
                 // need this bounding box!
                 if( !parent ) {
                     // Note: hardcoded canvas size here
+                    var boundingBox = new boundingBox(0,0,499,399,node.dim);
+
+
                 } else {
+
                     // create bounding box and distinguish between axis and
                     // which side (left/right) the node is on
+
+                    //TODO Rekursionszweig mit Parent-Node
+
+                    
+
                 }
+                node.bbox = boundingBox;
+
+                var leftChilds = pointList.slice(0, medPos);
+                var rightChilds = pointList.slice(medPos + 1, pointList.length);
 
                 // create point list left/right and
                 // call build for left/right arrays
-                
+                node.leftChild = this.build(leftChilds, node.dim, node, true);
+                node.rightChild = this.build(rightChilds, node.dim, node, false);
                 // return root node
+                return node;
             };
 
             /**

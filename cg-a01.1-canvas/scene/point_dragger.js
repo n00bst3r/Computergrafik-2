@@ -95,7 +95,7 @@ define(["util", "Scene"],
                 // what is my current position?
                 var pos = this.getPos();
 
-                // check whether distance between mouse and dragger's middle
+                // check whether distance between mouse and dragger's center
                 // is less or equal ( radius + (line width)/2 )
                 var dx = mousePos[0] - pos[0];
                 var dy = mousePos[1] - pos[1];
