@@ -31,17 +31,24 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
              * @param isLeft    - flag if node is left or right child of its parent
              * @returns returns root node after tree is build
              */
+
+
             this.build = function(pointList, dim, parent, isLeft) {
 
                 // IMPLEMENT!
                 // create new node
-
+                var node = new KdNode(dim);
                 // find median position in pointList
-                
+                var medPos = KdUtil.median(pointList,dim);
+                var medPoint = pointList[medPos];
                 // compute next axis
-                
+                if(nextAxis=='x'){
+                    nextAxis == 'y'
+                }else{
+                    nextAxis == "x";
+                }
                 // set point in node
-                
+                node.dim = nextAxis;
                 // compute bounding box for node
                 // check if node is root (has no parent)
                 // 

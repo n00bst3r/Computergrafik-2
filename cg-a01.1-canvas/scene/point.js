@@ -13,7 +13,7 @@ define(["util", "vec2", "Scene", "PointDragger"],
          *       begin of the form { width: 2, color: "#00FF00" }
          */
 
-        var Point = function(middle, lineStyle) {
+        var Point = function(middle,radius, lineStyle) {
 
             console.log("creating point at [" +
                 middle[0] + "," + middle[1] + "].");
