@@ -34,10 +34,13 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
 
 
             this.build = function(pointList, dim, parent, isLeft) {
+                console.log("Starte build...")
+                console.log("Laenge PointList: "+pointList.length);
 
 
                 // Rekursionsanker:
                 if(pointList.length === 0){
+                    console.log("Rekursionsanker erreicht.")
                     return;
                 }
 
@@ -57,6 +60,8 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
                 // set point in node
                 node.dim = nextAxis;
                 node.point = medPoint;
+
+
                 // compute bounding box for node
                 // check if node is root (has no parent)
                 // 
@@ -64,15 +69,49 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
                 // need this bounding box!
                 if( !parent ) {
                     // Note: hardcoded canvas size here
-                    var boundingBox = new boundingBox(0,0,499,399,node.dim);
+                    var boundingBox = new BoundingBox(0,0,499,399,node.dim);
 
 
                 } else {
+
 
                     // create bounding box and distinguish between axis and
                     // which side (left/right) the node is on
 
                     //TODO Rekursionszweig mit Parent-Node
+                    if (dim === 0) {
+                        if (isLeft) {
+                            console.log("dim = 0 und isLeft");
+                            var newXMin = parent.bbox.xmin;
+                            var newXMax = parent.bbox.xmax;
+                            var newYMin = parent.bbox.ymin;
+                            var newYMax = parent.point.center[1];
+                            boundingBox = new BoundingBox(newXMin, newYMin, newXMax, newYMax, medPoint, dim);
+                        } else {
+                            console.log("dim = 0 und isRight");
+                            var newXMin = parent.bbox.xmin;
+                            var newXMax = parent.bbox.xmax;
+                            var newYMin = parent.point.center[1];
+                            var newYMax = parent.bbox.ymax;
+                            boundingBox = new BoundingBox(newXMin, newYMin, newXMax, newYMax, medPoint, dim);
+                        }
+
+                    } else {
+                        console.log("dim = 1");
+                        if (isLeft) {
+                            var newXMin = parent.bbox.xmin;
+                            var newXMax = parent.point.center[0];
+                            var newYMin = parent.bbox.ymin;
+                            var newYMax = parent.bbox.ymax;
+                            boundingBox = new BoundingBox(newXMin, newYMin, newXMax, newYMax, medPoint, dim);
+                        } else {
+                            var newXMin = parent.point.center[0];
+                            var newXMax = parent.bbox.xmax;
+                            var newYMin = parent.bbox.ymin;
+                            var newYMax = parent.bbox.ymax;
+                            boundingBox = new BoundingBox(newXMin, newYMin, newXMax, newYMax, medPoint, dim);
+                        }
+                    }
 
                     
 
@@ -134,8 +173,12 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
                         second = node.leftChild;
                     }
                 }
-
-                var nextDim = (dim === 0) ? 1 : 0;
+                var nextDim ;
+                if (dim === 0) {
+                    nextDim = 1;
+                }else{
+                    nextDim = 0;
+                }
                 if( first && first.bbox.distanceTo(query.center) < closestDistance) {
                     closest = this.findNearestNeighbor(first, query, closestDistance, closest, nextDim);
                     closestDistance = KdUtil.distance(closest.point.center, query.center);
