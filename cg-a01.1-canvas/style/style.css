@@ -2,12 +2,17 @@
 body {
     font-family:Arial,Helvetica;
     background-color:white;
+
 }
 
 /* subsection titles for the parameter area */
 h3 {
     color: #000055;
     font-size:14px;
+}
+h4 {
+    color: #000055;
+    font-size:13px;
 }
 
 /* region to display an error */
@@ -30,7 +35,7 @@ h3 {
 #param_area {
     float:left;
     width:200px;
-    height:400px;
+    height:600px;
     border-width:1px;
     border-style: dashed;
     border-color: #c3c3c3;

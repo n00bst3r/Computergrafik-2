@@ -60,6 +60,21 @@
         <p></p>
         <input type="checkbox" id="visKdTree">
         <label for="visKdTree">show kd-Tree</label>
+        <p></p>
+        <h3>Curve-Stuff</h3>
+        <button id="btnNewParaCurve" type="button">New Paramtric Curve</button>
+        <p></p>
+        <button id="btnNewBezierCurve" type="button">New Bezier Curve</button>
+        <p></p>
+        <h4>Parameters</h4>
+        <p id="curveParams" >
+            x(t): <input id="xt" type="text" value="350+100*Math.cos(t)"/><br/>
+            y(t): <input id="yt" type="text" value="200+100*Math.sin(t)"/><br/>
+            t min: <input id="tmin" type="number" value="0" /><br/>
+            t max:<input id="tmax" type="number" value="5" /><br/>
+            # segments: <input id="segments" type="number" value="10" /><br />
+            tick marks: <input id="tickmarks" type="checkbox" />
+        </p>
 
 
     </div>

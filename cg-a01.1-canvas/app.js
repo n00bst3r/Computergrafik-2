@@ -20,6 +20,8 @@ requirejs.config({
 
         "Scene" : "./scene/scene",
         "Line" : "./scene/line",
+        "Param_curve" : "./scene/param_curve",
+        "Bezier_curve" : "./scene/bezier_curve",
         "Circle" : "./scene/circle",
         "Point" : "./scene/point",
         "PointDragger" : "./scene/point_dragger",
