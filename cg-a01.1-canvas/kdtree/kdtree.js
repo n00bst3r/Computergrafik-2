@@ -36,12 +36,16 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
             this.build = function(pointList, dim, parent, isLeft) {
                 console.log("Starte build...")
                 console.log("Laenge PointList: "+pointList.length);
+                for (var key in pointList){
+                    var value = pointList[key];
 
+                    console.log(value);
+                }
 
                 // Rekursionsanker:
                 if(pointList.length === 0){
                     console.log("Rekursionsanker erreicht.")
-                    return;
+                    return undefined;
                 }
 
                 // IMPLEMENT!
@@ -50,16 +54,17 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
                 // find median position in pointList
                 var medPos = KdUtil.median(pointList,dim);
                 var medPoint = pointList[medPos];
-                var nextAxis;
+                var nextDim;
                 // compute next axis
-                if(dim==0){
-                    nextAxis == 1;
+                if(dim===0){
+                   nextDim = 1;
                 }else{
-                    nextAxis == 0;
+                    nextDim = 0;
                 }
                 // set point in node
-                node.dim = nextAxis;
+
                 node.point = medPoint;
+                console.log("This is the median at pos " + medPos + ": ", medPoint);
 
 
                 // compute bounding box for node
@@ -67,9 +72,10 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
                 // 
                 // take a look in findNearestNeighbor why we 
                 // need this bounding box!
+                var boundingBox;
                 if( !parent ) {
                     // Note: hardcoded canvas size here
-                    var boundingBox = new BoundingBox(0,0,499,399,node.dim);
+                    boundingBox = new BoundingBox(0,0,499,399,node.dim);
 
 
                 } else {
@@ -78,8 +84,9 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
                     // create bounding box and distinguish between axis and
                     // which side (left/right) the node is on
 
-                    //TODO Rekursionszweig mit Parent-Node
+
                     if (dim === 0) {
+                        console.log("dim = 0");
                         if (isLeft) {
                             console.log("dim = 0 und isLeft");
                             var newXMin = parent.bbox.xmin;
@@ -123,8 +130,9 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
 
                 // create point list left/right and
                 // call build for left/right arrays
-                node.leftChild = this.build(leftChilds, node.dim, node, true);
-                node.rightChild = this.build(rightChilds, node.dim, node, false);
+                console.log("next Dim for childs is: "+nextDim);
+                node.leftChild = this.build(leftChilds, nextDim, node, true);
+                node.rightChild = this.build(rightChilds, nextDim, node, false);
                 // return root node
                 return node;
             };
@@ -193,6 +201,7 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
 
 
             //
+            console.log(this.node);
             this.root = this.build(pointList, 0);
             console.log(" this is the root: ", this.root);
 

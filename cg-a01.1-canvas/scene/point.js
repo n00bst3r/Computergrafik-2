@@ -13,7 +13,7 @@ define(["util", "vec2", "Scene", "PointDragger"],
          *       begin of the form { width: 2, color: "#00FF00" }
          */
 
-        var Point = function(center,radius, lineStyle) {
+        var Point = function(center, radius, lineStyle) {
 
             console.log("creating point at [" +
                 center[0] + "," + center[1] + "].");
@@ -23,7 +23,7 @@ define(["util", "vec2", "Scene", "PointDragger"],
 
             // initial values in case either point is undefined
             this.center = center || [10,10];
-            this.radius = 5;
+            this.radius = radius || 5;
 
             // draw this line into the provided 2D rendering context
             this.draw = function(context) {

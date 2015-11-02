@@ -31,15 +31,16 @@ define([], (function() {
      * @param left
      */
     kdutil.visualizeKdTree = function(sceneController, scene, node, dim, start, end, left) {
-
+        console.log("Entering visualizeKdTree...")
         var style = {
             width: 1,
-            color: "#0000ff"
+            color: "#000000"  //0000ff
         };
 
         scene.addObjects([node.bbox]);
         // deselect all objects, then select the newly created object
         sceneController.deselect();
+
         var nextDim = (dim === 0) ? 1 : 0;
         if (node.rightChild) {
             kdutil.visualizeKdTree(sceneController, scene, node.rightChild, nextDim, node.point.center[dim], end, left);

@@ -23,6 +23,7 @@ define(["util", "vec2", "Scene"],
 
             this.point = point;
             this.dim = dim;
+            console.log("Bounding Box Constructor: this.point = "+this.point);
 
             // distance squared from p to closest point on this axis-aligned rectangle
             this.distanceTo = function(p) {

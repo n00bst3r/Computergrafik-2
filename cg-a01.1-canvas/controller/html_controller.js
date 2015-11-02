@@ -116,6 +116,7 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil"],
 
                 var point = new Point([randomX(), randomY()], style3);
                 scene.addObjects([point]);
+                console.log("Point added to scene: "+point.center[0]);
 
                 // deselect all objects, then select the newly created object
                 sceneController.deselect();
@@ -195,13 +196,17 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil"],
             $("#visKdTree").click( (function() {
 
                 var showTree = $("#visKdTree").attr("checked");
+                console.log("Checking constraints in showTree...")
                 if(showTree && kdTree) {
+                    console.log("showTree constraints given...");
+                    console.log(kdTree);
                     KdUtil.visualizeKdTree(sceneController, scene, kdTree.root, 0, 0, 600, true);
                 }
 
             }));
 
             $("#btnBuildKdTree").click( (function() {
+                console.log("Build Tree Button gedrückt...");
 
                 kdTree = new KdTree(pointList);
 
@@ -231,13 +236,25 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil"],
                 var linearTiming;
                 var kdTiming;
 
+                var start = new Date().getTime();
+                var end;
+
                 var minIdx = KdUtil.linearSearch(pointList, queryPoint);
 
-                console.log("nearest neighbor linear: ", pointList[minIdx].center);
+                end = new Date().getTime();
+                linearTiming = end - start;
 
+                console.log("nearest neighbor linear: ", pointList[minIdx].center);
+                console.log("Duration of nearest neighbor linear: " + linearTiming + " msecs.");
+
+                start = new Date().getTime();
                 var kdNearestNeighbor = kdTree.findNearestNeighbor(kdTree.root, queryPoint, 10000000, kdTree.root, 0);
+                end = new Date().getTime();
+                kdTiming = end - start;
+
 
                 console.log("nearest neighbor kd: ", kdNearestNeighbor.point.center);
+                console.log("Duration of kd-Tree nearest neighbor: "+kdTiming+ " msecs");
 
                 sceneController.select(pointList[minIdx]);
                 sceneController.select(kdNearestNeighbor.point);
