@@ -279,27 +279,27 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_cu
                     return;
                 }
                 //xT, yT, tMin, tMax, segments, lineStyle
-                var curve =	 new ParametricCurve($("#xt").val(), $("#yt").val(),parseInt($("#tmin").val()), parseInt($("#tmax").val()), parseInt($("#segments").val()), style);
+                var curve =	 new ParametricCurve($("#xt").val(), $("#yt").val(),parseInt($("#tmin").val()), parseInt($("#tmax").val()), parseInt($("#segments",10).val()), style);
 
                 scene.addObjects([curve]);
                 // deselect all objects, then select the newly created object
                 sceneController.deselect();
                 sceneController.select(curve); // this will also redraw
-                console.log("redrawed");
+
             }));
 
             $("#btnNewBezierCurve").click((function(){
+                console.log("BezierCurv geklickt...");
                 var style = {
                     width : Math.floor(Math.random() * 3) + 1,
                     color: randomColor()
                 };
 
-                var segmentInput = parseInt($("segments").val());
-                console.log("segmentsinput");
+
                 var bezier = new BezierCurve(
                     [randomX(), randomY()], [randomX(), randomY()], //point0,point1
                     [randomX(), randomY()], [randomX(), randomY()], //point2,point3
-                    0, 1, segmentInput, style);
+                    0, 1, parseInt($("#segments").val()), style);
 
                 scene.addObjects([bezier]);
                 sceneController.deselect();
@@ -327,7 +327,7 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_cu
                 obj.tmax = parseInt($("#tmax").val());
                 scene.draw(context);
             }));
-            $("#segments").change((function(){
+            $("segments").change((function(){
                 var obj = sceneController.getSelectedObject();
                 obj.segments = parseInt($("#segments").val());
                 scene.draw(context);
@@ -344,7 +344,7 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_cu
                 $("#inputRadius").val(obj.radius);
                 $('#inputLineWidth').val(obj.lineStyle.width);
                 $("#tickmarks").attr('checked',obj.tickmarks);
-                $("#segments").val(obj.segments);
+                $("segments").val(obj.segments);
                 if (obj.tmin) {
                     $("#tmin").val(obj.tmin);
                     $("#tmax").val(obj.tmax);

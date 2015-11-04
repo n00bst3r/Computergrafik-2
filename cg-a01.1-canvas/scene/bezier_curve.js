@@ -4,8 +4,6 @@
 define([ "vec2", "Scene", "PointDragger","Param_curve","StraightLine","ControlPolygon"],
     (function(vec2,PointDragger, ParametricCurve,StraightLine,ControlPolygon) {
 
-        var p = [];
-        var c = [];
         var BezierCurve = function(point0, point1, point2, point3, tMin, tMax, segments, lineStyle) {
 
             console.log("creating bezierCurve with " + segments + " segments, between [ " + tMin + " and " + tMax + " ]");

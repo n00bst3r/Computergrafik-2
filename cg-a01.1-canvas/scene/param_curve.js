@@ -7,8 +7,8 @@ define(["vec2", "PointDragger","Scene", "StraightLine"],
 
     var ParametricCurve = function(xT, yT, tMin, tMax, segments, lineStyle) {
 
-        console.log("creating ParametricCurve with x(t) = " + xT + " and y(t) = " + yT +
-            ", segments " + segments + ", between [ " + tMin + " and " + tMax + " ]");
+        //console.log("creating ParametricCurve with x(t) = " + xT + " and y(t) = " + yT +
+         //   ", segments " + segments + ", between [ " + tMin + " and " + tMax + " ]");
 
         // line style
         this.lineStyle = lineStyle || {
@@ -50,7 +50,6 @@ define(["vec2", "PointDragger","Scene", "StraightLine"],
             for (var i = 0; i < this.segments; i++) {
                 this.lines[i].draw(context);
             }
-            console.log("Curve Klasse zeichnet");
             // start drawing
             context.stroke();
         };
