@@ -83,12 +83,12 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_cu
             $("#btnRdmCircle").click( (function() {
 
                 // create the actual line and add it to the scene
-                var style2 = {
+                var style = {
                     width: Math.floor(Math.random()*3)+1,
                     color: randomColor()
                 };
 
-                var circle = new Circle([randomX(), randomY()], randomR(), style2);
+                var circle = new Circle([randomX(), randomY()], randomR(), style);
 
                 scene.addObjects([circle]);
 
@@ -96,32 +96,25 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_cu
                 sceneController.deselect();
                 sceneController.select(circle); // this will also redraw
 
-                if(sceneController.getSelectedObject().r != undefined){
-                    console.log(sceneController.getSelectedObject());
-                    $("#pRadius").show();
-                }
-
             }));
 
             /*
              * Event Handler for the NewPoint Button
              */
-            $("#btnNewPoint").click(function() {
+            $("#btnNewPoint").click( (function() {
                 // create the actual line and add it to the scene
-                var style3 = {
+                var style = {
                     width: Math.floor(Math.random()*3)+1,
                     color: randomColor()
                 };
-
-
-                var point = new Point([randomX(), randomY()], style3);
+                var r;
+                var point = new Point([randomX(), randomY()],r, style);
                 scene.addObjects([point]);
-                console.log("Point added to scene: "+point.center[0]);
 
                 // deselect all objects, then select the newly created object
                 sceneController.deselect();
                 sceneController.select(point); // this will also redraw
-            });
+            }));
 
             sceneController.onSelection(function() {
                 var object = this.getSelectedObject();
@@ -131,7 +124,7 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_cu
                     $("#inputRadius").prop("disabled", false);
                     $("#inputRadius").val(object.radius);
                 } else {
-                    $("#inputRadius").val(0); //Hier wird aktiv gesetzt oder auch nicht. 
+                    $("#inputRadius").val(0); //Hier wird aktiv gesetzt oder auch nicht.
                     $("#inputRadius").prop("disabled", true);
                 }
             });

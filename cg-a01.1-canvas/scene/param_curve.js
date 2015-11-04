@@ -22,6 +22,7 @@ define(["vec2", "PointDragger","Scene", "StraightLine"],
         this.tMin = tMin || 0;
         this.tMax = tMax || Math.PI * 2;
         this.segments = segments || 6;
+        this.tickMarks = tickmarks || false;
         this.lines = new Array(this.segments);
         console.log("this: "+this);
         createParametricCurve(this);
@@ -52,7 +53,10 @@ define(["vec2", "PointDragger","Scene", "StraightLine"],
             }
             // start drawing
             context.stroke();
+
         };
+
+
 
         // test if mouse is on the line
         ParametricCurve.prototype.isHit = function(context, mousePosition) {
