@@ -75,7 +75,7 @@ define(["kdutil", "vec2", "Scene", "KdNode", "BoundingBox"],
                 var boundingBox;
                 if( !parent ) {
                     // Note: hardcoded canvas size here
-                    boundingBox = new BoundingBox(0,0,499,399,node.dim);
+                    boundingBox = new BoundingBox(0,0,499,399,medPoint,node.dim);
 
 
                 } else {
