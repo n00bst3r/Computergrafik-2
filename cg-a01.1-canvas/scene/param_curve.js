@@ -1,98 +1,76 @@
 /**
  * Created by Daniel on 02.11.2015.
  */
-define(["vec2", "PointDragger"],
-    (function( vec2, PointDragger) {
+define(["vec2", "PointDragger","Scene", "StraightLine"],
+    (function( vec2, PointDragger,Scene, StraightLine) {
     "use strict";
 
-    var ParametricCurve = function(tmin, tmax, xt, yt, segments, lineStyle) {
+    var ParametricCurve = function(xT, yT, tMin, tMax, segments, lineStyle) {
 
-        console.log("creating Parametric Curve with x(t)  [" +
-            xt + "], y(t) [" + yt + "], tMin [" + tmin + "], tMax [" + tmax + "] and " + segments + " segments.");
+        console.log("creating ParametricCurve with x(t) = " + xT + " and y(t) = " + yT +
+            ", segments " + segments + ", between [ " + tMin + " and " + tMax + " ]");
 
-        // draw style for drawing the line
-        this.lineStyle = lineStyle || { width: "2", color: "#0000AA" };
+        // line style
+        this.lineStyle = lineStyle || {
+                width: "2",
+                color: "#FFAAAA"
+            };
 
-        this.xt = xt || "350+100*Math.sin(t)";
-        this.yt = yt || "150+100*Math.cos(t)";
-        this.tmin = tmin || 0;
-        this.tmax = tmax || 8;
-        this.segments = segments || 10;
-        this.tickMarks = tickmarks || false;
-        this.p = [];
+        // initial values in case a parameter is undefined
+        this.xT = xT || "350 * Math.sin(t)";
+        this.yT = yT || "150 * Math.cos(t)";
+        this.tMin = tMin || 0;
+        this.tMax = tMax || Math.PI * 2;
+        this.segments = segments || 6;
+        this.lines = new Array(this.segments);
+        console.log("this: "+this);
+        createParametricCurve(this);
     };
 
-    function normale(pt1, pt2){
-        var v = vec2.sub(pt1, pt2);
-        var d = vec2.length(v);
-        var direction = [v[0]/d, v[1]/d];
-        return [ -direction[1], direction[0] ];
-    }
+        var createParametricCurve = function(curve) {
 
-    // draw this parametric curve into the provided 2D rendering context
-    ParametricCurve.prototype.draw = function(context) {
-        var delta = (this.tmax - this.tmin) / this.segments;
-        var t = this.tmin;
+            var points = [];
+            for (var i = 0; i < curve.segments + 1; i++) {
 
-        // draw actual line
-        context.beginPath();
-        //script CG2-U03-Arbeiten-mit-Kurven.pdf page 6 //
-        //berechne N+1 punkte
-        for (var i = 0; i<= this.segments; i++){
-            this.p[i] = [eval(this.xt), eval(this.yt)];
-            //console.log("t: " + t + " Delta: " + delta);
-            t += delta;
-        }
-        //zeichne N segmente
-        for (var i = 1; i<= this.segments; i++){
-            context.moveTo(this.p[i-1][0], this.p[i-1][1]);
-            context.lineTo(this.p[i][0], this.p[i][1]);
-
-            //tick marks
-            if(this.tickmarks == true){
-                var n = normale(
-                    [ this.p[i-1][0], this.p[i-1][1] ], //this.p[i-1]
-                    [ this.p[i][0], this.p[i][1] ]
-                );
-                context.moveTo(this.p[i-1][0]+n[0]*5, this.p[i-1][1]+n[1]*5 );
-                context.lineTo(this.p[i-1][0]-n[0]*5, this.p[i-1][1]-n[1]*5 );
+                // t = t_min + i/segments * (t_max - t_min)
+                var t = curve.tMin + i / curve.segments * (curve.tMax - curve.tMin);
+                points.push([eval(curve.xT), eval(curve.yT)]);
             }
-        }
-        // set drawing style
-        context.lineWidth = this.lineStyle.width;
-        context.strokeStyle = this.lineStyle.color;
 
-        // actually start drawing
-        context.stroke();
-    };
+            for (var i = 1; i < curve.segments + 1; i++) {
+                curve.lines[i - 1] = new StraightLine(points[i - 1], points[i], curve.lineStyle);
+            }
+        };
 
-    ParametricCurve.prototype.isHit = function(context, apos) {
-        var t = 0;
-        // project point on line, get parameter of that projection point
-        for (var i = 0; i < this.p.length - 1; i++) {
-            t = vec2.projectPointOnLine(apos, this.p[i], this.p[i + 1])
+        ParametricCurve.prototype.draw = function(context) {
 
-            // outside the line segment?
-            if (t >= 0 && t <= 1) {
-                // coordinates of the projected point
-                var pos = vec2.add(this.p[i], vec2.mult(vec2.sub(this.p[i + 1], this.p[i]), t));
+            // draw line
+            context.beginPath();
 
-                // distance of the point from the line
-                var d = vec2.length(vec2.sub(pos, p));
+            for (var i = 0; i < this.segments; i++) {
+                this.lines[i].draw(context);
+            }
+            console.log("Curve Klasse zeichnet");
+            // start drawing
+            context.stroke();
+        };
 
-                // allow 2 pixels extra "sensitivity"
-                // hitting the line
-                if (d <= (this.lineStyle.width / 2) + 2){
-                    console.log("Curve: Hit");
+        // test if mouse is on the line
+        ParametricCurve.prototype.isHit = function(context, mousePosition) {
+            for (var i = 0; i < this.lines.length; i++) {
+                if (this.lines[i].isHit(context, mousePosition)) {
                     return true;
                 }
             }
-            console.log("Curve: Missed");
             return false;
-        }
-    }
-    ParametricCurve.prototype.createDraggers = function() {
-        return [];
-    };
-    return ParametricCurve;
-}));
+        };
+
+        // empty list
+        ParametricCurve.prototype.createDraggers = function() {
+            return [];
+        };
+
+        // this module only exports the constructor for ParametricCurve objects
+        return ParametricCurve;
+
+    })); // define

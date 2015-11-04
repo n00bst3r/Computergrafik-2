@@ -12,7 +12,7 @@
 
 
 /* requireJS module definition */
-define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_curve", "Bezier_curve",],
+define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_curve", "Bezier_curve"],
     (function($, Line, Circle, Point, KdTree, Util, KdUtil, ParametricCurve, BezierCurve) {
         "use strict";
 
@@ -266,7 +266,7 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_cu
                     width : Math.floor(Math.random()*3)+1,
                     color : randomColor()
                 };
-
+                console.log("ParaCurve geklickt...");
                 try {
                     var t = 1;
                     var errorString = "The given x(t) is not a correct function.";
@@ -274,22 +274,18 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_cu
                     errorString = "The given y(t) is not a correct function.";
                     parseInt(eval($("#yt").val()));
                 } catch(err) {
+                    console.log("Error-Catch");
                     alert(errorString);
                     return;
                 }
-
-                var curve =	 new ParametricCurve(parseInt($("#tmin").val()), parseInt($("#tmax").val()), $("#xt").val(), $("#yt").val(), parseInt($("#segments").val()), style);
+                //xT, yT, tMin, tMax, segments, lineStyle
+                var curve =	 new ParametricCurve($("#xt").val(), $("#yt").val(),parseInt($("#tmin").val()), parseInt($("#tmax").val()), parseInt($("#segments").val()), style);
 
                 scene.addObjects([curve]);
-
-
-                if(sceneController.getSelectedObject() == curve){
-                    console.log(sceneController.getSelectedObject());
-                    curveParams.style.visibility = 'visible';
-                }
                 // deselect all objects, then select the newly created object
                 sceneController.deselect();
                 sceneController.select(curve); // this will also redraw
+                console.log("redrawed");
             }));
 
             $("#btnNewBezierCurve").click((function(){
@@ -297,19 +293,17 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_cu
                     width : Math.floor(Math.random() * 3) + 1,
                     color: randomColor()
                 };
-                var bezCurve = new BezierCurve(
-                    [randomX(), randomY()], [randomX(), randomY()], [randomX(), randomY()], [randomX(), randomY()],
-                    parseInt($("#segments").val()), style);
 
-                scene.addObjects([bezCurve]);
-                // deselect all objects, then select the newly created object
+                var segmentInput = parseInt($("segments").val());
+                console.log("segmentsinput");
+                var bezier = new BezierCurve(
+                    [randomX(), randomY()], [randomX(), randomY()], //point0,point1
+                    [randomX(), randomY()], [randomX(), randomY()], //point2,point3
+                    0, 1, segmentInput, style);
+
+                scene.addObjects([bezier]);
                 sceneController.deselect();
-                sceneController.select(bezCurve); // this will also redraw
-
-                if(sceneController.getSelectedObject() == bezCurve){
-                    console.log(sceneController.getSelectedObject());
-                    curveParams.style.visibility = 'visible';
-                }
+                sceneController.select(bezier); // this will also redraw
 
             }));
 

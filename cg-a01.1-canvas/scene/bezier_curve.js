@@ -1,147 +1,133 @@
 /**
  * Created by Daniel on 02.11.2015.
  */
-define([ "vec2", "Scene", "PointDragger"],
-    (function(vec2,PointDragger) {
+define([ "vec2", "Scene", "PointDragger","Param_curve","StraightLine","ControlPolygon"],
+    (function(vec2,PointDragger, ParametricCurve,StraightLine,ControlPolygon) {
 
         var p = [];
         var c = [];
-        var BezierCurve = function(p0, p1, p2, p3, segments, lineStyle) {
+        var BezierCurve = function(point0, point1, point2, point3, tMin, tMax, segments, lineStyle) {
 
-            console.log("creating bezire Curve with p0 [" + p0 + "], p1 [" + p1 + "], p2 [" + p2 + "], p3 [" + p3 + "] and " + segments + " segments.");
+            console.log("creating bezierCurve with " + segments + " segments, between [ " + tMin + " and " + tMax + " ]");
 
-            p[0] = p0 || [150, 230];
-            p[1] = p1 || [145, 161];
-            p[2] = p2 || [250, 201];
-            p[3] = p3 || [400, 250];
+            // line style
+            this.lineStyle = lineStyle || {
+                    width: "4",
+                    color: "#0000AA"
+                };
 
+            // initial values in case a parameter is undefined
+            this.point0 = point0 || [0.4, 0.4];
+            this.point1 = point1 || [0.6, 0.6];
+            this.point2 = point2 || [0.3, 0.7];
+            this.point3 = point3 || [0.2, 0.8];
+            this.tMin = 0;
+            this.tMax = 1;
             this.segments = segments || 20;
-            // draw style for drawing the line
-            this.lineStyle = lineStyle || { width: "2", color: "#0000AA" };
-            this.tickmarks = tickmarks || false;
+            this.lines = [];
+            createBezierCurve(this);
         };
 
-        //script CG2-U03-Arbeiten-mit-Kurven.pdf page 11 //
-        var casteljau = function (t){
-            // step 1
-            var a0 = vec2.add(vec2.mult(p[0], 1-t),vec2.mult(p[1], t));
-            var a1 = vec2.add(vec2.mult(p[1], 1-t),vec2.mult(p[2], t));
-            var a2 = vec2.add(vec2.mult(p[2], 1-t),vec2.mult(p[3], t));
+        var createBezierCurve = function(bezier) {
+            // create new array and push the first point
+            var points = [];
+            bezier.lines = [];
 
-            // step 2
-            var b0 = vec2.add(vec2.mult(a0, 1-t),vec2.mult(a1, t));
-            var b1 = vec2.add(vec2.mult(a1, 1-t),vec2.mult(a2, t));
+            for (var i = 0; i <= bezier.segments; i++) {
+                var t = 1 / bezier.segments * i;
 
-            // step 3
-            var c = vec2.add(vec2.mult(b0, 1-t),vec2.mult(b1, t));
+                // P = (1 ? t)^3 * [Point0] + 3(1 ? t)^2 * t * [Point1] + 3 (1 ? t) * t^2 * [Point1] + t^3 * [Point3]
+                var x = (Math.pow((1 - t), 3) * bezier.point0[0]) + (3 * Math.pow((1 - t), 2) * t * bezier.point1[0]) + (3 * (1 - t) * Math.pow(t, 2) * bezier.point2[0]) + (Math.pow(t, 3) * bezier.point3[0]);
+                var y = (Math.pow((1 - t), 3) * bezier.point0[1]) + (3 * Math.pow((1 - t), 2) * t * bezier.point1[1]) + (3 * (1 - t) * Math.pow(t, 2) * bezier.point2[1]) + (Math.pow(t, 3) * bezier.point3[1]);;
 
-            return c;
-        }
-
-        function normale(pt1, pt2){
-            var v = vec2.sub(pt1, pt2);
-            var d = vec2.length(v);
-            var direction = [v[0]/d, v[1]/d];
-            return [ -direction[1], direction[0] ];
-        }
-
-        // draw this bezier into the provided 2D rendering context
-        BezierCurve.prototype.draw = function(context) {
-
-            // draw actual line
-            context.beginPath();
-            // draws a line between the points
-            context.moveTo(p[0][0], p[0][1]);
-            context.lineTo(p[1][0], p[1][1]);
-
-            context.moveTo(p[1][0], p[1][1]);
-            context.lineTo(p[2][0], p[2][1]);
-
-            context.moveTo(p[2][0], p[2][1]);
-            context.lineTo(p[3][0], p[3][1]);
-
-
-            //script CG2-U03-Arbeiten-mit-Kurven.pdf page 6//
-            var t = 0;
-            //berechne N+1 punkte
-            for (var i = 0; i <= this.segments; i++){
-                c[i] = casteljau(t);
-                t = t+1/this.segments;
+                //push points into the array
+                points.push([x, y]);
             }
 
-            //zeichne N segmente
-            for (var i = 1; i <= this.segments; i++){
-                context.moveTo(c[i-1][0], c[i-1][1]);
-                context.lineTo(c[i][0], c[i][1]);
-
-                //tick marks
-                if(this.tickmarks == true){
-                    var n = normale([ c[i-1][0], c[i-1][1] ], [ c[i][0], c[i][1] ]);
-                    context.moveTo(c[i-1][0]+n[0]*10, c[i-1][1]+n[1]*10 );
-                    context.lineTo(c[i-1][0]-n[0]*10, c[i-1][1]-n[1]*10 );
-                }
+            for (var i = 1; i <= bezier.segments; i++) {
+                bezier.lines[i - 1] = new StraightLine(points[i - 1], points[i], bezier.lineStyle);
             }
-
-            // set drawing style
-            context.lineWidth = this.lineStyle.width;
-            context.strokeStyle = this.lineStyle.color;
-
-            // actually start drawing
-            context.stroke();
         };
 
-        BezierCurve.prototype.isHit = function(context, apos) {
-            var t = 0;
-            // project point on line, get parameter of that projection point
-            for (var i = 0; i < c.length - 1; i++) {
-                t = vec2.projectPointOnLine(apos, c[i], c[i + 1])
+        BezierCurve.prototype.isHit = ParametricCurve.prototype.isHit;
 
-                // outside the line segment?
-                if (t >= 0 && t <= 1) {
-                    // coordinates of the projected point
-                    var pos = vec2.add(c[i], vec2.mult(vec2.sub(c[i + 1], c[i]), t));
-
-                    // distance of the point from the line
-                    var d = vec2.length(vec2.sub(pos, apos));
-
-                    // allow 10 pixels extra "sensitivity"
-                    // hitting the line
-                    if (d <= (this.lineStyle.width / 2) + 10){
-                        console.log("Curve: Hit");
-                        return true;
-                    }
-                }
-                console.log("Curve: Missed");
-                return false;
-            }
-        }
-
-        // return list of draggers to manipulate this line
+        // return empty list of draggers
         BezierCurve.prototype.createDraggers = function() {
-            var draggerStyle = { radius:4, color: this.lineStyle.color, width:0, fill:true }
+
+            var editStyle = {
+                radius: 4,
+                color: "#ff0000",
+                width: 0,
+                fill: false
+            }
+
+            var draggerStyle = {
+                radius: 4,
+                color: this.lineStyle.color,
+                width: 0,
+                fill: true
+            }
+
+            var polygonStyle = {
+                radius: 4,
+                width: 2,
+                color: "#ff0000",
+                fill: false
+            };
+
             var draggers = [];
 
             // create closure and callbacks for dragger
+            var _curve = this;
+            var getPoint0 = function() {
+                return _curve.point0;
+            };
+            var getPoint1 = function() {
+                return _curve.point1;
+            };
+            var getPoint2 = function() {
+                return _curve.point2;
+            };
+            var getPoint3 = function() {
+                return _curve.point3;
+            };
 
-            var getP0 = function() { return p[0]; };
-            var getP1 = function() { return p[1]; };
-            var getP2 = function() { return p[2]; };
-            var getP3 = function() { return p[3]; };
+            var setPoint0 = function(dragEvent) {
+                _curve.point0 = dragEvent.position;
+            };
+            var setPoint1 = function(dragEvent) {
+                _curve.point1 = dragEvent.position;
+            };
+            var setPoint2 = function(dragEvent) {
+                _curve.point2 = dragEvent.position;
+            };
+            var setPoint3 = function(dragEvent) {
+                _curve.point3 = dragEvent.position;
+            };
 
-            var setP0 = function(dragEvent) { p[0] = dragEvent.position; };
-            var setP1 = function(dragEvent) { p[1] = dragEvent.position; };
-            var setP2 = function(dragEvent) { p[2] = dragEvent.position; };
-            var setP3 = function(dragEvent) { p[3] = dragEvent.position; };
+            draggers.push(new ControlPolygon(getPoint0, getPoint1, getPoint2, getPoint3, setPoint0, polygonStyle));
 
-            draggers.push( new PointDragger(getP0, setP0, draggerStyle) );
-            draggers.push( new PointDragger(getP1, setP1, draggerStyle) );
-            draggers.push( new PointDragger(getP2, setP2, draggerStyle) );
-            draggers.push( new PointDragger(getP3, setP3, draggerStyle) );
-
+            draggers.push(new PointDragger(getPoint0, setPoint0, draggerStyle));
+            draggers.push(new PointDragger(getPoint1, setPoint1, editStyle));
+            draggers.push(new PointDragger(getPoint2, setPoint2, editStyle));
+            draggers.push(new PointDragger(getPoint3, setPoint3, draggerStyle));
             return draggers;
         };
 
-        // this module only exports the constructor for StraightLine objects
-        return BezierCurve;
+        // draw ParametricCurve onto the provided 2D rendering context
+        BezierCurve.prototype.draw = function(context) {
+            createBezierCurve(this);
+            // draw line
+            context.beginPath();
 
-    }));
+            for (var i = 0; i < this.segments; i++) {
+                this.lines[i].draw(context);
+            }
+            // start drawing
+            context.stroke();
+
+        };
+
+        // this module only exports the constructor for ParametricCurve objects
+        return BezierCurve;
+    })); // define
