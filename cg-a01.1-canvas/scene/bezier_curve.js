@@ -98,7 +98,7 @@ define([ "vec2", "Scene", "PointDragger","Param_curve","StraightLine","ControlPo
                 _curve.point3 = dragEvent.position;
             };
 
-            draggers.push(new ControlPolygon( getPoint1, getPoint2, getPoint3, setPoint0, polygonStyle));
+            draggers.push(new ControlPolygon( getPoint1, getPoint2, getPoint3,  polygonStyle));
 
             draggers.push(new PointDragger(getPoint1, setPoint1, editStyle));
             draggers.push(new PointDragger(getPoint2, setPoint2, editStyle));
