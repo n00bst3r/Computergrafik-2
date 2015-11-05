@@ -289,7 +289,7 @@ define(["jquery", "Line", "Circle","Point", "KdTree", "util", "kdutil","Param_cu
                 };
 
 
-                var bezier = new BezierCurve(
+                var bezier = new BezierCurve([randomX(), randomY()], //point0
                      [randomX(), randomY()], //,point1
                     [randomX(), randomY()], [randomX(), randomY()], //point2,point3
                     0, 1, parseInt($("#segments").val()), style);
