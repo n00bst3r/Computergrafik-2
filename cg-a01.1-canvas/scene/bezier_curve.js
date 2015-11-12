@@ -34,7 +34,7 @@ define([ "vec2", "Scene", "PointDragger","Param_curve","StraightLine","ControlPo
             for (var i = 0; i <= bezier.segments; i++) {
                 var t = 1 / bezier.segments * i;
 
-                // P = (1 ? t)^3 * [Point0] + 3(1 ? t)^2 * t * [Point1] + 3 (1 ? t) * t^2 * [Point1] + t^3 * [Point3]
+                // P = (1 ? t)^3 * [Point0] + 3(1 ? t)^2 * t * [Point1] + 3 (1 ? t) * t^2 * [Point1] + t^3 * [Point3] Bernstein Formel.
                 var x = (3 * Math.pow((1 - t), 2) * t * bezier.point1[0]) + (3 * (1 - t) * Math.pow(t, 2) * bezier.point2[0]) + (Math.pow(t, 3) * bezier.point3[0]);
                 var y = (3 * Math.pow((1 - t), 2) * t * bezier.point1[1]) + (3 * (1 - t) * Math.pow(t, 2) * bezier.point2[1]) + (Math.pow(t, 3) * bezier.point3[1]);;
 
@@ -77,7 +77,7 @@ define([ "vec2", "Scene", "PointDragger","Param_curve","StraightLine","ControlPo
 
             // create closure and callbacks for dragger
             var _curve = this;
-         getPoint1 = function() {
+            var getPoint1 = function() {
                 return _curve.point1;
             };
             var getPoint2 = function() {
@@ -113,7 +113,8 @@ define([ "vec2", "Scene", "PointDragger","Param_curve","StraightLine","ControlPo
             context.beginPath();
 
             for (var i = 0; i < this.segments; i++) {
-                this.lines[i].draw(context);
+
+              this.lines[i].draw(context);
             }
             // start drawing
             context.stroke();
