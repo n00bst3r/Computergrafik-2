@@ -33,7 +33,7 @@
         <button id="btnRandom"   type="button"   >Random</button>
         <button id="btnBand" type="button"   >Band</button>
         <button id="btnEllipsoid" type="button"   >Ellipsoid</button>
-        <button id="btnParametric" type="button"   >Parametric</button>
+
 
         <!-- add more here... -->
         <h3>Selected Object:</h3>
@@ -63,6 +63,51 @@
                 <td><button id="btnNewBand"   type="button"   >Create Band</button></td>
             </tr>
         </table>
+        <table id="elipsoid">
+            <!-- Things needed for Parametric.. -->
+            <tr>
+                <td>uMin:</td>
+                <td><input id="uMin" class="objParam" type="number" min="0" max="1000" value="0"></td>
+            </tr>
+            <tr>
+                <td>uMax:</td>
+                <td><input id="uMax" class="objParam" type="number" min="0" max="1000" value="7"></td>
+            </tr>
+            <tr>
+                <td>vMin:</td>
+                <td><input id="vMin" class="objParam" type="number" min="0" max="1000" value="0"></td>
+            </tr>
+            <tr>
+                <td>vMax:</td>
+                <td><input id="vMax" class="objParam" type="number" min="0" max="1000" value="8"></td>
+            </tr>
+            <tr>
+                <td>uSegments:</td>
+                <td><input id="uSegments" class="objParam" type="number" min="0" max="1000" value="100"></td>
+            </tr>
+            <tr>
+                <td>vSegments:</td>
+                <td><input id="vSegments" class="objParam" type="number" min="0" max="1000" value="100"></td>
+            </tr>
+            <tr>
+                <td>a</td>
+                <td><input id="valueA" class="objParam" type="number" min="1" max="10000" value="500"></td>
+            </tr>
+            <tr>
+                <td>b</td>
+                <td><input id="valueB" class="objParam" type="number" min="1" max="10000" value="250"></td>
+            </tr>
+            <tr>
+                <td>c</td>
+                <td><input id="valueC" class="objParam" type="number" min="1" max="10000" value="125"></td>
+            </tr>
+            <tr>
+                <td><button id="btnNewEllipsoid"   type="button"   >Create Ellispoid</button></td>
+            </tr>
+
+
+        </table>
+
 
     </div>
 

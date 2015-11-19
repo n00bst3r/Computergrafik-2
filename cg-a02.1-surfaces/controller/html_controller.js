@@ -11,8 +11,8 @@
 
 
 /* requireJS module definition */
-define(["jquery", "BufferGeometry", "random", "band"],
-    (function($,BufferGeometry, Random, Band) {
+define(["jquery", "BufferGeometry", "random", "band","ellipsoid"],
+    (function($,BufferGeometry, Random, Band, Ellipsoid) {
         "use strict";
 
         /*
@@ -24,15 +24,24 @@ define(["jquery", "BufferGeometry", "random", "band"],
 
             $("#random").show();
             $("#band").hide();
+            $("#elipsoid").hide();
 
             $("#btnRandom").click( (function() {
                 $("#random").show();
                 $("#band").hide();
+                $("#elipsoid").hide();
             }));
 
             $("#btnBand").click( (function() {
                 $("#random").hide();
+                $("#elipsoid").hide();
                 $("#band").show();
+            }));
+
+            $("#btnEllipsoid").click( (function() {
+                $("#random").hide();
+                $("#band").hide();
+                $("#elipsoid").show();
             }));
 
             $("#btnNewRandom").click( (function() {
@@ -62,6 +71,34 @@ define(["jquery", "BufferGeometry", "random", "band"],
                 bufferGeometryBand.addAttribute("color", band.getColors());
 
                 scene.addBufferGeometry(bufferGeometryBand);
+            }));
+
+            $("#btnNewEllipsoid").click( (function() {
+
+                var config = {
+                    umin : parseInt($('#uMin').attr('value')),
+                    umax : parseInt($('#uMax').attr('value')),
+                    vmin : parseInt($('#vMin').attr('value')),
+                    vmax : parseInt($('#vMax').attr('value')),
+                    uSegments : parseInt($('#uSegments').attr('value')),
+                    vSegments : parseInt($('#vSegments').attr('value'))
+
+                };
+
+                var a = parseInt($('#valueA').attr('value'));
+                var b = parseInt($('#valueB').attr('value'));
+                var c = parseInt($('#valueC').attr('value'));
+                console.log("A: "+a+" B: "+b+" C: "+c);
+                var ellipsoid = new Ellipsoid(a, b, c, config);
+                var bufferGeometryEllipsoid = new BufferGeometry();
+               // console.log("getPosition: "+ellipsoid.getPositions());
+                bufferGeometryEllipsoid.addAttribute('position', ellipsoid.getPositions());
+                bufferGeometryEllipsoid.addAttribute('color', ellipsoid.getColors());
+
+                scene.addBufferGeometry(bufferGeometryEllipsoid);
+
+
+
             }));
 
 
