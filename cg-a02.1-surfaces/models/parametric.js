@@ -20,12 +20,7 @@ define(["three"],
             var vmax = config.vmax;
             var uSegments = config.uSegments;
             var vSegments = config.vSegments;
-            console.log("uMin: "+umin);
-            console.log("uMax: "+umax);
-            console.log("vmin: "+vmin);
-            console.log("vmax :"+vmax);
-
-
+            
             /**
              * Size of a piece.
              * @type {number}

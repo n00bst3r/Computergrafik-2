@@ -8,9 +8,7 @@ define(["three", "parametric"],
 
         var Ellipsoid = function (a, b, c, config){
             this.config = config;
-            /*
-             *   NaN exeption TODO
-             */
+
             var EllipsoidFunction = function(u, v) {
                 var x = Math.sin(u) * Math.sin(v) * a;
                 var y = Math.cos(u) * Math.sin(v) * b;

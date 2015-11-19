@@ -88,7 +88,7 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid"],
                 var a = parseInt($('#valueA').attr('value'));
                 var b = parseInt($('#valueB').attr('value'));
                 var c = parseInt($('#valueC').attr('value'));
-                console.log("A: "+a+" B: "+b+" C: "+c);
+
                 var ellipsoid = new Ellipsoid(a, b, c, config);
                 var bufferGeometryEllipsoid = new BufferGeometry();
                // console.log("getPosition: "+ellipsoid.getPositions());
