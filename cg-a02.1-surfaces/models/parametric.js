@@ -20,7 +20,7 @@ define(["three"],
             var vmax = config.vmax;
             var uSegments = config.uSegments;
             var vSegments = config.vSegments;
-            
+
             /**
              * Size of a piece.
              * @type {number}

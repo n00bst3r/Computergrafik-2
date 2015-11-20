@@ -28,7 +28,7 @@
 
       <div id="drawing_container" width="600" height="400"></div>
 
-    <div id="param_area" >
+    <div id="param_area" style="width:350px;">
 
         <button id="btnRandom"   type="button"   >Random</button>
         <button id="btnBand" type="button"   >Band</button>
@@ -102,7 +102,13 @@
                 <td><input id="valueC" class="objParam" type="number" min="1" max="10000" value="125"></td>
             </tr>
             <tr>
-                <td><button id="btnNewEllipsoid"   type="button"   >Create Ellispoid</button></td>
+            <tr>
+                <td><label for="animationCheck">Animation on/off</label></td>
+                <td><input type="checkbox" id="animationCheck"></td>
+            </tr>
+            </tr>
+            <tr>
+                <td><button id="btnNewEllipsoid"   type="button" style="width:200px;"  >Create Parametric Body</button></td>
             </tr>
 
 

@@ -101,6 +101,16 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid"],
 
             }));
 
+            $('#animationCheck').change(function() {
+                // TODO Animation implementieren
+                if ($('#animationCheck').is(':checked')) {
+                    alert("Animation an.");
+                }else{
+                    alert("Animation aus.");
+                }
+
+            });
+
 
         };
 
