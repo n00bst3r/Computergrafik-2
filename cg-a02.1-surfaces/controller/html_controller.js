@@ -21,6 +21,12 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid"],
          */
         var HtmlController = function(scene) {
 
+            this.rotationSetter;
+
+
+            var rotate = function(value) {
+                scene.currentMesh.rotation.y += value;
+            };
 
             $("#random").show();
             $("#band").hide();
@@ -104,9 +110,10 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid"],
             $('#animationCheck').change(function() {
                 // TODO Animation implementieren
                 if ($('#animationCheck').is(':checked')) {
-                    alert("Animation an.");
+                    this.rotationSetter = setInterval(function() {rotate(50); },100);
                 }else{
-                    alert("Animation aus.");
+                    clearInterval(this.rotationSetter);
+                    
                 }
 
             });
