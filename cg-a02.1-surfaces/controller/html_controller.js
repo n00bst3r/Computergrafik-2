@@ -108,12 +108,12 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid"],
             }));
 
             $('#animationCheck').change(function() {
-                // TODO Animation implementieren
+                // TODO Objekte auswählbar machen.
                 if ($('#animationCheck').is(':checked')) {
                     this.rotationSetter = setInterval(function() {rotate(50); },100);
                 }else{
                     clearInterval(this.rotationSetter);
-                    
+
                 }
 
             });
