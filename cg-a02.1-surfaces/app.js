@@ -26,6 +26,8 @@ requirejs.config({
         "band" : "./models/band",
         "parametric": "./models/parametric",
         "ellipsoid":"./models/ellipsoid",
+        "pillowShape":"./models/pillowShape",
+        "cosine": "./models/cosine",
         "util"  : "./utils/util",
         "shaders" : "./shaders",
         "BufferGeometry" : "./scene/buffer_geometry",

@@ -11,8 +11,8 @@
 
 
 /* requireJS module definition */
-define(["jquery", "BufferGeometry", "random", "band","ellipsoid"],
-    (function($,BufferGeometry, Random, Band, Ellipsoid) {
+define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","cosine"],
+    (function($,BufferGeometry, Random, Band, Ellipsoid, PillowShape, Cosine) {
         "use strict";
 
         /*
@@ -30,25 +30,26 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid"],
 
             $("#random").show();
             $("#band").hide();
-            $("#elipsoid").hide();
+            $("#paramtricfield").hide();
 
             $("#btnRandom").click( (function() {
                 $("#random").show();
                 $("#band").hide();
-                $("#elipsoid").hide();
+                $("#paramtricfield").hide();
             }));
 
             $("#btnBand").click( (function() {
                 $("#random").hide();
-                $("#elipsoid").hide();
+                $("#paramtricfield").hide();
                 $("#band").show();
             }));
 
             $("#btnEllipsoid").click( (function() {
                 $("#random").hide();
                 $("#band").hide();
-                $("#elipsoid").show();
+                $("#paramtricfield").show();
             }));
+
 
             $("#btnNewRandom").click( (function() {
 
@@ -82,12 +83,12 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid"],
             $("#btnNewEllipsoid").click( (function() {
 
                 var config = {
-                    umin : parseInt($('#uMin').attr('value')),
-                    umax : parseInt($('#uMax').attr('value')),
-                    vmin : parseInt($('#vMin').attr('value')),
-                    vmax : parseInt($('#vMax').attr('value')),
-                    uSegments : parseInt($('#uSegments').attr('value')),
-                    vSegments : parseInt($('#vSegments').attr('value'))
+                    umin : parseFloat($('#uMin').attr('value').replace( /,/,"." )),
+                    umax :  parseFloat($('#uMax').attr('value').replace( /,/,"." )),
+                    vmin : parseFloat($('#vMin').attr('value').replace( /,/,"." )),
+                    vmax :  parseFloat($('#vMax').attr('value').replace( /,/,"." )),
+                    uSegments : parseFloat($('#uSegments').attr('value').replace( /,/,"." )),
+                    vSegments :  parseFloat($('#vSegments').attr('value').replace( /,/,"." ))
 
                 };
 
@@ -95,13 +96,36 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid"],
                 var b = parseInt($('#valueB').attr('value'));
                 var c = parseInt($('#valueC').attr('value'));
 
-                var ellipsoid = new Ellipsoid(a, b, c, config);
-                var bufferGeometryEllipsoid = new BufferGeometry();
-               // console.log("getPosition: "+ellipsoid.getPositions());
-                bufferGeometryEllipsoid.addAttribute('position', ellipsoid.getPositions());
-                bufferGeometryEllipsoid.addAttribute('color', ellipsoid.getColors());
+                var parametricBody = undefined;
+                var bufferGeometryParamBody = new BufferGeometry();;
 
-                scene.addBufferGeometry(bufferGeometryEllipsoid);
+                switch ($('#parametricOptions').val()) {
+
+                    case '0':
+                        parametricBody = new Ellipsoid(a, b, c, config);
+                        break;
+                    case '1':
+                        config.umin = 0.0;
+                        config.umax = Math.PI;
+                        config.vmin = - Math.PI;
+                        config.vmax = Math.PI;
+                        parametricBody = new PillowShape(a, b, c, config);
+                        break;
+                    case '2':
+                        config.umin = - Math.PI;
+                        config.umax = Math.PI;
+                        config.vmin = - Math.PI;
+                        config.vmax = Math.PI;
+                        parametricBody = new Cosine(a, b, c, config);
+                        break;
+                }
+
+
+
+                bufferGeometryParamBody.addAttribute('position', parametricBody.getPositions());
+                bufferGeometryParamBody.addAttribute('color', parametricBody.getColors());
+
+                scene.addBufferGeometry(bufferGeometryParamBody);
 
 
 

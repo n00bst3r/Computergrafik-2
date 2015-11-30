@@ -32,11 +32,10 @@
 
         <button id="btnRandom"   type="button"   >Random</button>
         <button id="btnBand" type="button"   >Band</button>
-        <button id="btnEllipsoid" type="button"   >Ellipsoid</button>
-
+        <button id="btnEllipsoid" type="button"   >Parametric</button>
 
         <!-- add more here... -->
-        <h3>Selected Object:</h3>
+        <h3>Parameter Settings: </h3>
         <table id="random">
             <tr>
                 <td>Number of Items:</td>
@@ -63,8 +62,17 @@
                 <td><button id="btnNewBand"   type="button"   >Create Band</button></td>
             </tr>
         </table>
-        <table id="elipsoid">
+        <table id="paramtricfield">
             <!-- Things needed for Parametric.. -->
+            <tr>
+                <td>
+                    <select id ="parametricOptions" size="3">
+                        <option selected="selected" value ="0">Ellipsoid</option>
+                        <option value="1">Pillow Shape</option>
+                        <option value="2">Cosine Surface</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <td>uMin:</td>
                 <td><input id="uMin" class="objParam" type="number" min="0" max="1000" value="0"></td>
