@@ -48,6 +48,14 @@ define(["three"],
             this.getMesh = function() {
                 return this.mesh;
             }
+
+            this.setIndexArray(array){
+                this.geometry.setIndex(array);
+            }
+
+            this.getIndexArray(){
+                return this.geometry.getIndex();
+            }
         };
 
         return BufferGeometry;
