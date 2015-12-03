@@ -49,11 +49,11 @@ define(["three"],
                 return this.mesh;
             }
 
-            this.setIndexArray(array){
+            this.setIndexArray = function (array){
                 this.geometry.setIndex(array);
             }
 
-            this.getIndexArray(){
+            this.getIndexArray = function(){
                 return this.geometry.getIndex();
             }
         };
