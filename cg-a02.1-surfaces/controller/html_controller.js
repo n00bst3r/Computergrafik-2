@@ -53,9 +53,15 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
 
             $("#btnNewRandom").click( (function() {
 
+                var renderMesh = $('#chkSolid').is(':checked');
+                var renderWireframe = $('#chkWireframe').is(':checked');
+                var renderPoints = $('#chkPoints').is(':checked');
+
+
                 var numPoints = parseInt($("#numItems").attr("value"));
                 var random = new Random(numPoints);
-                var bufferGeometryRandom = new BufferGeometry();
+                var bufferGeometryRandom = new BufferGeometry(renderMesh, renderWireframe, renderPoints);
+                bufferGeometryRandom.setIndex(random.getIndices());
                 bufferGeometryRandom.addAttribute("position", random.getPositions());
                 bufferGeometryRandom.addAttribute("color", random.getColors());
 
@@ -71,9 +77,14 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
                     height : parseInt($("#height").attr("value"))
                 };
 
+                var renderMesh = $('#chkSolid').is(':checked');
+                var renderWireframe = $('#chkWireframe').is(':checked');
+                var renderPoints = $('#chkPoints').is(':checked');
+
 
                 var band = new Band(config);
-                var bufferGeometryBand = new BufferGeometry();
+                var bufferGeometryBand = new BufferGeometry(renderMesh, renderWireframe, renderPoints);
+                bufferGeometryBand.setIndex(band.getIndices());
                 bufferGeometryBand.addAttribute("position", band.getPositions());
                 bufferGeometryBand.addAttribute("color", band.getColors());
 
@@ -92,12 +103,18 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
 
                 };
 
+                var renderMesh = $('#chkSolid').is(':checked');
+                var renderWireframe = $('#chkWireframe').is(':checked');
+                var renderPoints = $('#chkPoints').is(':checked');
+
+
                 var a = parseInt($('#valueA').attr('value'));
                 var b = parseInt($('#valueB').attr('value'));
                 var c = parseInt($('#valueC').attr('value'));
 
                 var parametricBody = undefined;
-                var bufferGeometryParamBody = new BufferGeometry();;
+
+
 
                 switch ($('#parametricOptions').val()) {
 
@@ -122,17 +139,21 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
 
 
 
+                var renderMesh = $('#chkSolid').is(':checked');
+                var renderWireframe = $('#chkWireframe').is(':checked');
+                var renderPoints = $('#chkPoints').is(':checked');
+
+                var bufferGeometryParamBody = new BufferGeometry(renderMesh, renderWireframe, renderPoints);
+                bufferGeometryParamBody.setIndex(parametricBody.getIndices());
                 bufferGeometryParamBody.addAttribute('position', parametricBody.getPositions());
                 bufferGeometryParamBody.addAttribute('color', parametricBody.getColors());
 
                 scene.addBufferGeometry(bufferGeometryParamBody);
 
-
-
             }));
 
             $('#animationCheck').change(function() {
-                // TODO Objekte auswählbar machen.
+
                 if ($('#animationCheck').is(':checked')) {
                     this.rotationSetter = setInterval(function() {rotate(50); },100);
                 }else{

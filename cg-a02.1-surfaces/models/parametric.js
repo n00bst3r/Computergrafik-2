@@ -39,6 +39,7 @@ define(["three"],
              * @type {Float32Array}
              */
             this.positions = new Float32Array((uSegments + 1) * (vSegments + 1) * 3);
+            this.indices = new Uint32Array((uSegments) * (vSegments) * 2 * 3);
 
 
             /**
@@ -48,7 +49,7 @@ define(["three"],
             this.colors = new Float32Array((uSegments + 1) * (vSegments + 1) * 3);
 
             var color = new THREE.Color();
-
+            var indexCounter = 0;
             var counter = 0;
             for (var i = 0; i <= uSegments; i++) {
                 var u = umin + (i * du);
@@ -71,9 +72,24 @@ define(["three"],
                     this.colors[counter]     = color.r;
                     this.colors[counter + 1] = color.g;
                     this.colors[counter + 2] = color.b;
+
+                    //indices
+                    var temp = i * (vSegments + 1) + j;
+                    //this.indices.push(temp, temp + 1, temp + vSegments + 1);
+                    this.indices[indexCounter] = temp;
+                    this.indices[indexCounter + 1] = temp + 1;
+                    this.indices[indexCounter + 2] = temp + vSegments + 1;
+
+                    //this.indices.push(temp + vSegments + 1, temp + vSegments + 2, temp + 1);
+                    this.indices[indexCounter + 3] = temp + vSegments + 1;
+                    this.indices[indexCounter + 4] = temp + vSegments + 2;
+                    this.indices[indexCounter + 5] = temp + 1;
+                    indexCounter = indexCounter + 6;
                     counter = counter + 3;
                 }
             }
+
+
 
             this.getPositions = function() {
                 return this.positions;
@@ -82,6 +98,10 @@ define(["three"],
             this.getColors = function() {
                 return this.colors;
             };
+
+            this.getIndices = function() {
+                return this.indices;
+            }
 
         };
 

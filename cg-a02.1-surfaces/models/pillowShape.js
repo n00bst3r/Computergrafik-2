@@ -21,6 +21,7 @@ define(["three", "parametric"],
             this.positions = parametricSurface.getPositions();
             this.colors = parametricSurface.getColors();
 
+
             this.getPositions = function() {
                 return this.positions;
             };
@@ -28,6 +29,10 @@ define(["three", "parametric"],
             this.getColors = function() {
                 return this.colors;
             };
+
+            this.getIndices = function() {
+                return parametricSurface.getIndices();
+            }
 
 
 

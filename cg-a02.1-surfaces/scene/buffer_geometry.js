@@ -21,14 +21,40 @@ define(["three"],
 
         "use strict";
 
-        var BufferGeometry = function () {
+        var BufferGeometry = function (renderMesh, renderWireframe, renderPoints) {
 
             this.mesh     = undefined;
             this.geometry = new THREE.BufferGeometry();
-            this.material = new THREE.PointsMaterial( {
+
+            this.pointsMaterial = new THREE.PointsMaterial( {
                 color: 0xaaaaaa,
-                size: 10, vertexColors: THREE.VertexColors
-            } );
+                size: 10, vertexColors: THREE.VertexColors,
+                side: THREE.DoubleSide
+            });
+
+            this.meshMaterial = new THREE.MeshBasicMaterial( {
+                /*color: 0xaaaaaa,*/
+                vertexColors: THREE.VertexColors,
+                side: THREE.DoubleSide
+            });
+
+            this.wireframeMaterial = new THREE.MeshBasicMaterial({
+                color: 0x000000,
+                wireframe: true,
+                // Due to limitations in the ANGLE layer, on Windows platforms linewidth will always be 1 regardless of the set value.
+                wireframeLinewidth: 1
+            });
+
+            this.materials = [];
+            if (renderMesh) {
+                this.materials.push(this.meshMaterial);
+            }
+            if(renderWireframe) {
+                this.materials.push(this.wireframeMaterial);
+            }
+            if (renderPoints) {
+                this.materials.push(this.pointsMaterial);
+            }
 
             /**
              * Adds a vertex attribute, we assume each element has three components, e.g.
@@ -42,21 +68,24 @@ define(["three"],
                 this.geometry.addAttribute( name, new THREE.BufferAttribute( buffer, 3 ) );
                 this.geometry.computeBoundingSphere();
 
-                this.mesh = new THREE.Points( this.geometry, this.material );
+                if (renderPoints) {
+                    this.mesh = new THREE.Points(this.geometry, this.pointsMaterial);
+                } else {
+                    this.mesh = THREE.SceneUtils.createMultiMaterialObject(this.geometry, this.materials);
+                }
             }
 
             this.getMesh = function() {
                 return this.mesh;
             }
 
-            this.setIndexArray = function (array){
-                this.geometry.setIndex(array);
+            this.setIndex = function (indices) {
+                this.geometry.setIndex(new THREE.BufferAttribute(indices, 1));
             }
 
-            this.getIndexArray = function(){
-                return this.geometry.getIndex();
-            }
+
         };
 
-        return BufferGeometry;
+        return BufferGeometry;  //TODO Hier läuft schon was schief.
+
     }));

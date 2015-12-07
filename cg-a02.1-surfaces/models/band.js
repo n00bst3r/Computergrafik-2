@@ -9,8 +9,8 @@
  */
 
 /* requireJS module definition */
-define(["three"],
-    (function(THREE) {
+define(["three", "parametric"],
+    (function(THREE,ParametricSurface ) {
 
         "use strict";
 
@@ -27,6 +27,32 @@ define(["three"],
 
             this.positions = new Float32Array( 2*segments * 3);
             this.colors = new Float32Array( 2*segments * 3 );
+            this.indices = new Uint32Array(2 * segments * 3);
+
+            // Initialize indices
+            this.indices[0] = 0;
+            this.indices[1] = 1;
+            this.indices[2] = 3;
+            this.indices[3] = 0;
+            this.indices[4] = 3;
+            this.indices[5] = 2;
+
+            var i;
+            for (i = 6; i < this.indices.length - 6; i += 6) {
+                this.indices[i] = this.indices[i - 6] + 2;
+                this.indices[i + 1] = this.indices[i - 5] + 2;
+                this.indices[i + 2] = this.indices[i - 4] + 2;
+                this.indices[i + 3] = this.indices[i - 3] + 2;
+                this.indices[i + 4] = this.indices[i - 2] + 2;
+                this.indices[i + 5] = this.indices[i - 1] + 2;
+            }
+
+            this.indices[i] = this.indices[i - 6] + 2;
+            this.indices[i + 1] = this.indices[i - 5] + 2;
+            this.indices[i + 2] = this.indices[1];
+            this.indices[i + 3] = this.indices[i - 3] + 2;
+            this.indices[i + 4] = this.indices[1];
+            this.indices[i + 5] = this.indices[0];
 
             var color = new THREE.Color();
 
@@ -70,6 +96,10 @@ define(["three"],
             this.getColors = function() {
                 return this.colors;
             };
+
+            this.getIndices = function() {
+                return this.indices;
+            }
 
         };
 
