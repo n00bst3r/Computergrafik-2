@@ -28,6 +28,7 @@ requirejs.config({
         "ellipsoid":"./models/ellipsoid",
         "pillowShape":"./models/pillowShape",
         "cosine": "./models/cosine",
+        "robot": "./models/robot",
         "util"  : "./utils/util",
         "shaders" : "./shaders",
         "BufferGeometry" : "./scene/buffer_geometry",

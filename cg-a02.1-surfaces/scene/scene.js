@@ -66,6 +66,10 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band"],
                 scope.scene.add( scope.currentMesh );
 
             }
+            //TODO Hier wird die Mesh(Roboter) uebergeben.
+            this.addMesh = function(robotMesh){
+                scope.scene.add(robotMesh);
+            }
 
             /*
              * drawing the scene
