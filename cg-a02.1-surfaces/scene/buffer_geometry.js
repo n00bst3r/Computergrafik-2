@@ -86,6 +86,6 @@ define(["three"],
 
         };
 
-        return BufferGeometry;  //TODO Hier läuft schon was schief.
+        return BufferGeometry;
 
     }));

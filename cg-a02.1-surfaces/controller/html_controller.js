@@ -11,8 +11,8 @@
 
 
 /* requireJS module definition */
-define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","cosine"],
-    (function($,BufferGeometry, Random, Band, Ellipsoid, PillowShape, Cosine) {
+define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","cosine", "robot"],
+    (function($,BufferGeometry, Random, Band, Ellipsoid, PillowShape, Cosine, Robot) {
         "use strict";
 
         /*
@@ -30,24 +30,34 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
 
             $("#random").show();
             $("#band").hide();
+            $("#robotParamField").hide();
             $("#paramtricfield").hide();
 
             $("#btnRandom").click( (function() {
                 $("#random").show();
                 $("#band").hide();
+                $("#robotParamField").hide();
                 $("#paramtricfield").hide();
             }));
 
             $("#btnBand").click( (function() {
                 $("#random").hide();
                 $("#paramtricfield").hide();
+                $("#robotParamField").hide();
                 $("#band").show();
             }));
 
             $("#btnEllipsoid").click( (function() {
                 $("#random").hide();
                 $("#band").hide();
+                $("#robotParamField").hide();
                 $("#paramtricfield").show();
+            }));
+            $("#btnRobot").click( (function() {
+                $("#random").hide();
+                $("#band").hide();
+                $("#paramtricfield").hide();
+                $("#robotParamField").show();
             }));
 
 
@@ -150,6 +160,14 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
 
                 scene.addBufferGeometry(bufferGeometryParamBody);
 
+            }));
+
+            $("#btnNewRobot").click( (function() {
+
+                var robot = new Robot();
+                scene.addBufferGeometry(robot);
+
+               //Robot Creation here...
             }));
 
             $('#animationCheck').change(function() {
