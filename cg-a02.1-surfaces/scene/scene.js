@@ -47,6 +47,11 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band"],
                 var nodeEllbowLeft = scope.scene.getObjectByName("ellbowLeft", true);
                 var nodeEllbowRight = scope.scene.getObjectByName("ellbowRight", true);
 
+                var nodeThighLeft = scope.scene.getObjectByName("thighLeft",true);
+                var nodeThighRight = scope.scene.getObjectByName("thighRight",true);
+                var nodeKneeRight = scope.scene.getObjectByName("kneeRight",true);
+                var nodeKneeLeft = scope.scene.getObjectByName("kneeLeft",true);
+
                 var nodeHead = scope.scene.getObjectByName("head", true);
 
                 if(keyCode == 38){
@@ -92,6 +97,32 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band"],
                 } else if(keyCode == 72){  // 72 = h  Kopf
                     if(nodeHead){
                         nodeHead.rotateY(Math.PI/16);
+                    }
+                } else if (keyCode == 75 ){   //75 = k
+                    if(nodeThighLeft&&nodeThighRight&&nodeKneeLeft&&nodeKneeRight){
+                        nodeThighLeft.rotateX(Math.PI/16);
+                        nodeKneeLeft.rotateX(-Math.PI/16);
+                        nodeThighRight.rotateX(-Math.PI/16);
+                        nodeKneeRight.rotateX(Math.PI/16);
+                    }
+                } else if(keyCode ==76){  //76 = l
+                    if(nodeThighLeft&&nodeThighRight&&nodeKneeLeft&&nodeKneeRight){
+                        nodeThighLeft.rotateX(-Math.PI/16);
+                        nodeKneeLeft.rotateX(Math.PI/16);
+                        nodeThighRight.rotateX(Math.PI/16);
+                        nodeKneeRight.rotateX(-Math.PI/16);
+
+                    }
+                } else if(keyCode == 73){ // 73 = i
+                    if(nodeThighLeft&&nodeThighRight){
+                        nodeThighLeft.rotateZ(-Math.PI/16);
+                        nodeThighRight.rotateZ(Math.PI/16);
+                    }
+
+                } else if (keyCode == 79){  //79 = o
+                    if(nodeThighLeft&&nodeThighRight){
+                        nodeThighLeft.rotateZ(Math.PI/16);
+                        nodeThighRight.rotateZ(-Math.PI/16);
                     }
                 }
             };
