@@ -41,6 +41,14 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band"],
                 // Get the key code of the pressed key
                 var keyCode = event.which;
 
+                var nodeShoulderLeft = scope.scene.getObjectByName("shoulderLeft", true);
+                var nodeShoulderRight = scope.scene.getObjectByName("shoulderRight", true);
+
+                var nodeEllbowLeft = scope.scene.getObjectByName("ellbowLeft", true);
+                var nodeEllbowRight = scope.scene.getObjectByName("ellbowRight", true);
+
+                var nodeHead = scope.scene.getObjectByName("head", true);
+
                 if(keyCode == 38){
                     console.log("cursor up");
                     scope.currentMesh.rotation.x += 0.05;
@@ -57,6 +65,34 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band"],
                     console.log("cursor right");
                     scope.currentMesh.rotation.y += -0.05;
                     // Cursor up
+                } else if(keyCode == 87){   // 87 = w   Oberarme
+
+                    if(nodeShoulderLeft&&nodeShoulderRight){
+                        nodeShoulderLeft.rotateX(Math.PI/16);
+                        nodeShoulderRight.rotateX(Math.PI/16);
+                    }
+                } else if(keyCode==83){   //83 = s Unterarme Z Achse
+
+                    if(nodeShoulderLeft&&nodeShoulderRight){
+                        nodeShoulderLeft.rotateX(-Math.PI/16);
+                        nodeShoulderRight.rotateX(-Math.PI/16);
+                    }
+
+                } else if(keyCode == 68){  // 68 = d
+                    if(nodeEllbowLeft &&nodeEllbowRight){
+                        nodeEllbowLeft.rotateZ(-Math.PI/16);
+                        nodeEllbowRight.rotateZ(-Math.PI/16);
+                    }
+                } else if(keyCode == 65){  // 65 = a
+                    if(nodeEllbowLeft &&nodeEllbowRight){
+                        nodeEllbowLeft.rotateZ(Math.PI/16);
+                        nodeEllbowRight.rotateZ(Math.PI/16);
+                    }
+
+                } else if(keyCode == 72){  // 72 = h  Kopf
+                    if(nodeHead){
+                        nodeHead.rotateY(Math.PI/16);
+                    }
                 }
             };
 
