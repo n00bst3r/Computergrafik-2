@@ -25,6 +25,7 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band"],
             // the scope of the object instance
             var scope = this;
 
+
             scope.renderer = renderer;
             scope.t = 0.0;
 
@@ -133,7 +134,7 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band"],
                 scope.scene.add( scope.currentMesh );
 
             }
-            //TODO Hier wird die Mesh(Roboter) uebergeben.
+
             this.addMesh = function(robotMesh){
                 scope.scene.add(robotMesh);
             }
@@ -148,6 +149,8 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band"],
                 scope.renderer.render(scope.scene, scope.camera);
 
             };
+
+
         };
 
 
