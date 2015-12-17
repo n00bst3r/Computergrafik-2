@@ -13,7 +13,9 @@ define(["three"],
         "use strict";
 
         var ParametricSurface = function (posFunc, config) {
-
+            /*
+             * Parameter u und v:
+             */
             var umin = config.umin;
             var umax = config.umax;
             var vmin = config.vmin;
@@ -22,22 +24,19 @@ define(["three"],
             var vSegments = config.vSegments;
 
             /**
-             * Size of a piece.
-             * @type {number}
+             *
+             * Größe eines Elements u
              */
             var du = (umax - umin) / uSegments;
 
             /**
-             * Size of a piece.
-             * @type {number}
+             * Größe eines Elements v
+             *
              */
 
             var dv = (vmax - vmin) / vSegments;
 
-            /**
-             * Array with positions.
-             * @type {Float32Array}
-             */
+
             this.positions = new Float32Array((uSegments + 1) * (vSegments + 1) * 3);
             this.indices = new Uint32Array((uSegments) * (vSegments) * 2 * 3);
 
@@ -51,8 +50,9 @@ define(["three"],
             var color = new THREE.Color();
             var indexCounter = 0;
             var counter = 0;
+            //Abtasten der Segmente:
             for (var i = 0; i <= uSegments; i++) {
-                var u = umin + (i * du);
+                var u = umin + (i * du);  //beginnt bie umin und endet bei umax.
                 for (var j = 0; j <= vSegments; j++) {
 
                     var v = vmin + (j * dv);
@@ -73,19 +73,19 @@ define(["three"],
                     this.colors[counter + 1] = color.g;
                     this.colors[counter + 2] = color.b;
 
-                    //indices
+
                     var temp = i * (vSegments + 1) + j;
-                    //this.indices.push(temp, temp + 1, temp + vSegments + 1);
+
                     this.indices[indexCounter] = temp;
                     this.indices[indexCounter + 1] = temp + 1;
                     this.indices[indexCounter + 2] = temp + vSegments + 1;
 
-                    //this.indices.push(temp + vSegments + 1, temp + vSegments + 2, temp + 1);
+
                     this.indices[indexCounter + 3] = temp + vSegments + 1;
                     this.indices[indexCounter + 4] = temp + vSegments + 2;
                     this.indices[indexCounter + 5] = temp + 1;
-                    indexCounter = indexCounter + 6;
-                    counter = counter + 3;
+                    indexCounter = indexCounter + 6;  //wie bei Band.js 6 Indizes-Schritte
+                    counter = counter + 3;  //Sorgt dafür, dass in 3 Punkteschritten gegangen wird.
                 }
             }
 
