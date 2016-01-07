@@ -75,7 +75,7 @@ define(["three"],
 
 
                     var temp = i * (vSegments + 1) + j;
-
+                    // TODO: Fehler: Gehe zu weit.... if-Bedingung, die das ausschließt.
                     this.indices[indexCounter] = temp;
                     this.indices[indexCounter + 1] = temp + 1;
                     this.indices[indexCounter + 2] = temp + vSegments + 1;
@@ -88,7 +88,8 @@ define(["three"],
                     counter = counter + 3;  //Sorgt dafür, dass in 3 Punkteschritten gegangen wird.
                 }
             }
-
+            console.log("IndexCounter:" + (indexCounter - 6));
+            console.log("Length Array: "+ this.indices.length);
 
 
             this.getPositions = function() {

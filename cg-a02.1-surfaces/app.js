@@ -20,7 +20,6 @@ requirejs.config({
             '../lib/jquery-1.7.2.min'],
 
         "three" : "../lib/three.min",
-
         "scene" : "./scene/scene",
         "random" : "./models/random",
         "band" : "./models/band",
@@ -29,6 +28,8 @@ requirejs.config({
         "pillowShape":"./models/pillowShape",
         "cosine": "./models/cosine",
         "robot": "./models/robot",
+        "explosion":"./models/explosion",
+        "planet":"./models/planet",
         "util"  : "./utils/util",
         "shaders" : "./shaders",
         "BufferGeometry" : "./scene/buffer_geometry",

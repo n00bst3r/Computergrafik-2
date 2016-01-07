@@ -40,12 +40,12 @@ define(["three", "parametric"],
             var i;
             //Nun werden in 6er Schritten die Indizes verteilt:
             for (i = 6; i < this.indices.length - 6; i += 6) {
-                this.indices[i] = this.indices[i - 6] + 2;
-                this.indices[i + 1] = this.indices[i - 5] + 2;
-                this.indices[i + 2] = this.indices[i - 4] + 2;
-                this.indices[i + 3] = this.indices[i - 3] + 2;
-                this.indices[i + 4] = this.indices[i - 2] + 2;
-                this.indices[i + 5] = this.indices[i - 1] + 2;
+                this.indices[i] = this.indices[i - 6] + 2;  //2
+                this.indices[i + 1] = this.indices[i - 5] + 2;  //3
+                this.indices[i + 2] = this.indices[i - 4] + 2; //5
+                this.indices[i + 3] = this.indices[i - 3] + 2; // 2
+                this.indices[i + 4] = this.indices[i - 2] + 2; // 5
+                this.indices[i + 5] = this.indices[i - 1] + 2; // 4
             }
 
             this.indices[i] = this.indices[i - 6] + 2;
