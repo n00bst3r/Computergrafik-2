@@ -222,12 +222,12 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
 
             $('#btnNewPlanet').click(function() {
                 console.log("Creating a new planet...");
-                //TODO Implement
-                 var planet = new Planet();
+                console.log(scene);
+                var planet = new Planet($('#chkPlanetDayTexture').is(':checked'), $('#chkPlanetNightTexture').is(':checked'), $('#chkPlanetCloudsTexture').is(':checked'));
                 scene.addMesh(planet.getMesh());
 
-                var aLight = new THREE.AmbientLight('#FFFFFF');
-                var dLight = new THREE.DirectionalLight('#FFFFFF', 1);
+                var aLight = new THREE.AmbientLight('#ADADAD');
+                var dLight = new THREE.DirectionalLight('#FFF8D1', 1);
                 dLight.name = "dLight";
                 dLight.position.set(-1, 0, -0.3).normalize();
                 scene.addLight(aLight);
