@@ -32,9 +32,13 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
             $("#band").hide();
             $("#robotParamField").hide();
             $("#paramtricfield").hide();
+            $("#explosionParamField").hide();
+            $("#planetParamField").hide();
 
             $("#btnRandom").click( (function() {
                 $("#random").show();
+                $("#planetParamField").hide();
+                $("#explosionParamField").hide();
                 $("#band").hide();
                 $("#robotParamField").hide();
                 $("#paramtricfield").hide();
@@ -42,6 +46,8 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
 
             $("#btnBand").click( (function() {
                 $("#random").hide();
+                $("#planetParamField").hide();
+                $("#explosionParamField").hide();
                 $("#paramtricfield").hide();
                 $("#robotParamField").hide();
                 $("#band").show();
@@ -49,15 +55,40 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
 
             $("#btnEllipsoid").click( (function() {
                 $("#random").hide();
+                $("#planetParamField").hide();
+                $("#explosionParamField").hide();
                 $("#band").hide();
                 $("#robotParamField").hide();
                 $("#paramtricfield").show();
             }));
             $("#btnRobot").click( (function() {
+                $("#planetParamField").hide();
                 $("#random").hide();
+                $("#explosionParamField").hide();
                 $("#band").hide();
                 $("#paramtricfield").hide();
                 $("#robotParamField").show();
+            }));
+            $("#btnPlanet").click( (function() {
+
+                $("#checkTable").hide();
+                $("#random").hide();
+                $("#band").hide();
+                $("#explosionParamField").hide();
+                $("#robotParamField").hide();
+                $("#paramtricfield").hide();
+                $("#planetParamField").show();
+            }));
+            $("#btnExplosion").click( (function() {
+
+                $("#checkTable").hide();
+                $("#random").hide();
+                $("#band").hide();
+                $("#robotParamField").hide();
+                $("#paramtricfield").hide();
+                $("#planetParamField").hide();
+                $("#explosionParamField").show();
+
             }));
 
 
@@ -181,6 +212,16 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
 
             });
 
+            $('#animationCheckPlanet').change(function() {
+
+                if ($('#animationCheck').is(':checked')) {
+                    this.rotationSetter = setInterval(function() {rotate(50); },100);
+                }else{
+                    clearInterval(this.rotationSetter);
+
+                }
+
+            });
 
         };
 
