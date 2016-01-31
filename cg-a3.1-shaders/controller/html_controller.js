@@ -198,8 +198,29 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
                 var robot = new Robot();
                 scene.addBufferGeometry(robot);
 
-               //Robot Creation here...
+
             }));
+
+            //TODO
+
+            $('#btnNewPlanet').click(function() {
+                console.log("Creating a new planet...");
+                //TODO Implement
+                 var planet = new Planet();
+                scene.addMesh(planet.getMesh());
+
+                var aLight = new THREE.AmbientLight('#FFFFFF');
+                var dLight = new THREE.DirectionalLight('#FFFFFF', 1);
+                dLight.name = "dLight";
+                dLight.position.set(-1, 0, -0.3).normalize();
+                scene.addLight(aLight);
+                scene.addLight(dLight);
+            });
+
+            $('#btnNewExplosion').click(function() {
+                console.log("Creating new explosion...");
+                //TODO Implement
+            });
 
             $('#animationCheck').change(function() {
 

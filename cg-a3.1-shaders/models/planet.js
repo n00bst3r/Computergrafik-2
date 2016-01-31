@@ -15,6 +15,9 @@ define(["three", "shaders"],
 
             // implement ShaderMaterial using the code from
             // the lecture
+            var material = new THREE.ShaderMaterial( {
+                //TODO Implement
+            });
             
             // hint:
             // texture can be assigned only when it is loaded completely, e.g. like this
