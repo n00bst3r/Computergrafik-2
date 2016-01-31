@@ -24,6 +24,23 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
             this.rotationSetter;
 
 
+            this.directionalLightRotationInterval;
+
+
+            var quat = new THREE.Quaternion();
+            var axis = new THREE.Vector3(0, 1, 0).normalize();
+            var angle = 0;
+            var light = new THREE.Vector3(-1, 0, -0.3).normalize();
+
+            var directionalLightRotate = function(value) {
+
+                angle += 0.002;
+                quat.setFromAxisAngle(axis, angle);
+                light = light.applyQuaternion(quat);
+                scene.currentDirectionalLight.position.set(light.x, light.y, light.z);
+            };
+
+
             var rotate = function(value) {
                 scene.currentMesh.rotation.y += value;
             };
@@ -242,6 +259,15 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
 
                 }
 
+            });
+
+            $('#chkPlanetSunAnimation').change(function() {
+                if ($(this).is(':checked')) {
+                    console.log("Sun rotation started!");
+                    this.directionalLightRotationInterval = setInterval(directionalLightRotate, 20);
+                } else {
+                    clearInterval(this.directionalLightRotationInterval);
+                }
             });
 
         };
