@@ -29,7 +29,7 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
 
             this.directionalLightRotationInterval;
 
-            
+
             var directionalLightRotate = function (angle) {
                 var quat = new THREE.Quaternion();
                 quat.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), angle);
@@ -230,9 +230,16 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
                 scene.addLight(dLight);
             });
 
-            $('#btnNewExplosion').click(function() {
+            $('#btnNewExplosion').click(function () {
+                var config = {
+                    frequencyScale: parseFloat($('#nmbExplosionFrequencyScale').attr('value').replace(/,/, ".")),
+                    colorScale: parseFloat($('#nmbExplosionColorScale').attr('value').replace(/,/, ".")),
+                    weight: parseFloat($('#nmbExplosionWeight').attr('value').replace(/,/, "."))
+                };
                 console.log("Creating new explosion...");
                 //TODO Implement
+                var explosion = new Explosion(config);
+                scene.addMesh(explosion.getMesh());
             });
 
             $('#animationCheck').change(function() {

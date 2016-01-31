@@ -16,11 +16,12 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band"],
     (function(THREE, util, shaders, BufferGeometry, Random, Band) {
 
         "use strict";
-
+        var start = Date.now();
         /*
          * Scene constructor
          */
         var Scene;
+
         Scene = function (renderer, width, height) {
 
             // the scope of the object instance
@@ -158,9 +159,15 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band"],
             /*
              * drawing the scene
              */
-            this.draw = function () {
+            this.draw = function() {
 
-                requestAnimFrame(scope.draw);
+                var explosion = scope.scene.getObjectByName('explosion');
+                if(explosion){
+                    // start wird zur Laufzeit mit Date.now() initialisiert .
+                    explosion.material.uniforms['time'].value = .00035 * (Date.now() - start);
+                }
+
+                requestAnimFrame( scope.draw );
 
                 scope.renderer.render(scope.scene, scope.camera);
 
