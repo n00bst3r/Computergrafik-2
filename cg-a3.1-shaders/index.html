@@ -1,0 +1,236 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <!--
+     *
+     * JavaScript / WebGL teaching framwork
+     * (C)opyright Kristian Hildebrand, khildebrand@beuth-hochschule.de
+    -->
+
+    <title>CG2 A2: WebGL / Surfaces</title>
+
+    <!-- import main module using RequireJS -->
+    <script data-main="app.js" src="../lib/require.js"></script>
+
+    <!-- import style sheet -->
+    <link rel="stylesheet" type="text/css" media="screen" href="style/style.css">
+
+</head>
+
+<body>
+
+  <!-- this element will be used to diplay errors -->
+  <pre id="error"></pre>
+
+  <!-- centered region with drawing canvas and parameter area -->
+  <div align="center">
+
+      <div id="drawing_container" width="600" height="400"></div>
+
+    <div id="param_area" style="width:350px;">
+
+        <button id="btnRandom"   type="button"   >Random</button>
+        <button id="btnBand" type="button"   >Band</button>
+        <button id="btnEllipsoid" type="button"   >Parametric</button>
+        <button id="btnRobot" type = "button" > Robot</button>
+        <button id="btnPlanet" type = "button" > Planet</button>
+        <button id="btnExplosion" type="button">Explosion</button>
+        <p></p>
+        <table id="checkTable">
+            <tr><td><h3>Selected Object: </h3></td></tr>
+            <tr>
+                <td>
+                    <label for="chkWireframe">Wireframe</label>
+                </td>
+                <td>
+                    <input type="checkbox" id="chkWireframe"><br>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="chkSolid">Solid</label>
+                </td>
+                <td>
+                    <input type="checkbox" id="chkSolid"><br>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="chkPoints">Points</label>
+                </td>
+                <td>
+                    <input type="checkbox" id="chkPoints"><br>
+                </td>
+            </tr>
+        </table>
+
+
+
+        <!-- add more here... -->
+
+        <table id="random">
+            <tr>
+                <td><h3>Parameter Settings: </h3></td>
+            </tr>
+            <tr>
+                <td>Number of Items:</td>
+                <td><input id="numItems" class="objParam" type="number" min="1" max="10000" value="1000">
+            </tr>
+            <tr>
+                <td><button id="btnNewRandom"   type="button"   >Create Random</button></td>
+            </tr>
+        </table>
+        <table id="band">
+            <tr>
+                <td>Number of Segments:</td>
+                <td><input id="numSegments" class="objParam" type="number" min="1" max="10000" value="1000">
+            </tr>
+            <tr>
+                <td>Radius:</td>
+                <td><input id="radius" class="objParam" type="number" min="1" max="1000" value="300">
+            </tr>
+            <tr>
+                <td>Height:</td>
+                <td><input id="height" class="objParam" type="number" min="1" max="1000" value="100">
+            </tr>
+            <tr>
+                <td><button id="btnNewBand"   type="button"   >Create Band</button></td>
+            </tr>
+        </table>
+        <table id="paramtricfield">
+            <!-- Things needed for Parametric.. -->
+            <tr>
+                <td>
+                    <select id ="parametricOptions" size="3">
+                        <option selected="selected" value ="0">Ellipsoid</option>
+                        <option value="1">Pillow Shape</option>
+                        <option value="2">Cosine Surface</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>uMin:</td>
+                <td><input id="uMin" class="objParam" type="number" min="0" max="1000" value="0"></td>
+            </tr>
+            <tr>
+                <td>uMax:</td>
+                <td><input id="uMax" class="objParam" type="number" min="0" max="1000" value="7"></td>
+            </tr>
+            <tr>
+                <td>vMin:</td>
+                <td><input id="vMin" class="objParam" type="number" min="0" max="1000" value="0"></td>
+            </tr>
+            <tr>
+                <td>vMax:</td>
+                <td><input id="vMax" class="objParam" type="number" min="0" max="1000" value="8"></td>
+            </tr>
+            <tr>
+                <td>uSegments:</td>
+                <td><input id="uSegments" class="objParam" type="number" min="0" max="1000" value="100"></td>
+            </tr>
+            <tr>
+                <td>vSegments:</td>
+                <td><input id="vSegments" class="objParam" type="number" min="0" max="1000" value="100"></td>
+            </tr>
+            <tr>
+                <td>a</td>
+                <td><input id="valueA" class="objParam" type="number" min="1" max="10000" value="500"></td>
+            </tr>
+            <tr>
+                <td>b</td>
+                <td><input id="valueB" class="objParam" type="number" min="1" max="10000" value="250"></td>
+            </tr>
+            <tr>
+                <td>c</td>
+                <td><input id="valueC" class="objParam" type="number" min="1" max="10000" value="125"></td>
+            </tr>
+            <tr>
+            <tr>
+                <td><label for="animationCheck">Animation on/off</label></td>
+                <td><input type="checkbox" id="animationCheck"></td>
+            </tr>
+            </tr>
+            <tr>
+                <td><button id="btnNewEllipsoid"   type="button" style="width:200px;"  >Create Parametric Body</button></td>
+            </tr>
+
+
+        </table>
+        <table id="robotParamField">
+            <!-- Things needed for Robot.. -->
+
+            <tr>
+                <td>
+                <td><button id="btnNewRobot"   type="button" style="width:200px;"  >Create Robot</button></td>
+                </td>
+            </tr>
+
+        </table>
+        <table id="planetParamField">
+
+            <!-- Things needed for Robot.. -->
+            <tr>
+                <td><h3>Planet Settings: </h3></td>
+            </tr>
+            <tr>
+                <td>Animation of sun</td>
+                <td><input type="checkbox" id="chkPlanetSunAnimation"></td>
+            </tr>
+            <tr>
+                <td>Day texture</td>
+                <td><input type="checkbox" id="chkPlanetDayTexture" checked></td>
+            </tr>
+            <tr>
+                <td>Night texture</td>
+                <td><input type="checkbox" id="chkPlanetNightTexture" checked></td>
+            </tr>
+            <tr>
+                <td>Clouds</td>
+                <td><input type="checkbox" id="chkPlanetCloudsTexture" checked></td>
+            </tr>
+            <tr>
+                <td><label for="animationCheckPlanet">Animation on/off</label></td>
+                <td><input type="checkbox" id="animationCheckPlanet"></td>
+            </tr>
+            <tr>
+                <td>
+                <td><button id="btnNewPlanet"   type="button" style="width:200px;"  >Create Planet</button></td>
+                </td>
+            </tr>
+
+        </table>
+        <table id="explosionParamField">
+
+            <!-- Things needed for Robot.. -->
+            <tr><td><h3>Explosion Settings:</h3> </td></tr>
+            <tr>
+                <td>Frequency Scale:</td>
+                <td><input type="number" id="nmbExplosionFrequencyScale" value="0.5"></td>
+            </tr>
+            <tr>
+                <td>Color Scale:</td>
+                <td><input type="number" id="nmbExplosionColorScale" value="1.3"></td>
+            </tr>
+            <tr>
+                <td>Weight:</td>
+                <td><input type="number" id="nmbExplosionWeight" value="200"></td>
+            </tr>
+            <tr>
+            <tr>
+                <td>
+                <td><button id="btnNewExplosion"   type="button" style="width:200px;"  >Create Explosion</button></td>
+                </td>
+            </tr>
+
+        </table>
+
+
+    </div>
+
+
+
+  </div>
+
+</body>
+</html>
