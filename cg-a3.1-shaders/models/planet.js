@@ -16,7 +16,6 @@ define(["three", "shaders"],
             // implement ShaderMaterial using the code from
             // the lecture
 
-            //TODO Make shader compile
             var material = new THREE.ShaderMaterial( {
                 uniforms: THREE.UniformsUtils.merge( [
                     THREE.UniformsLib['lights'],
@@ -102,10 +101,16 @@ define(["three", "shaders"],
             scope.mesh.name = "planet";
 
             scope.root.add(scope.mesh);
+            this.material = material;
+
 
             this.getMesh = function() {
                 return this.root;
             };
+
+            this.getMaterial = function() {
+                return this.material;
+            }
 
 
         }; // constructor

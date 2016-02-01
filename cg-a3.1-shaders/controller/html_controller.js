@@ -21,6 +21,8 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
          */
         var HtmlController = function(scene) {
 
+            var lastPlanet = undefined;
+
             this.rotationSetter;
 
 
@@ -228,6 +230,7 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
                 dLight.position.set(-1, 0, -0.3).normalize();
                 scene.addLight(aLight);
                 scene.addLight(dLight);
+                lastPlanet = planet;
             });
 
             $('#btnNewExplosion').click(function () {
@@ -273,7 +276,39 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
                 }
             });
 
+            $('#chkPlanetDayTexture').change(function() {
+                if ($(this).is(':checked')) {
+                    console.log('Adding Day Texture!');
+                    lastPlanet.getMaterial().uniforms.showDayTexture.value = 1;
+                } else {
+                    console.log('Removing Day Texture!');
+                    lastPlanet.getMaterial().uniforms.showDayTexture.value = 0;
+                }
+            });
+
+            $('#chkPlanetNightTexture').change(function() {
+                if ($(this).is(':checked')) {
+                    console.log('Adding Night Texture!');
+                    lastPlanet.getMaterial().uniforms.showNightTexture.value = 1;
+                } else {
+                    console.log('Removing Night Texture!');
+                    lastPlanet.getMaterial().uniforms.showNightTexture.value = 0;
+                }
+            });
+
+            $('#chkPlanetCloudsTexture').change(function() {
+                if ($(this).is(':checked')) {
+                    console.log('Adding Clouds Texture!');
+                    lastPlanet.getMaterial().uniforms.showCloudTexture.value = 1;
+                } else {
+                    console.log('Removing Clouds Texture!');
+                    lastPlanet.getMaterial().uniforms.showCloudTexture.value = 0;
+                }
+            });
+
         };
+
+
 
         // return the constructor function
         return HtmlController;

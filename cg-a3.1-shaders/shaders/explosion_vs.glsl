@@ -164,13 +164,13 @@ void main() {
 
     vUv = uv;
 
-    noise = -1.9 * noise3D(normal*0.18 + time);
+    noise = -1.9 * noise3D(normal * freqScale + time);
 
     // get a 3d noise using the position, low frequency
     float b = noise3D(position) * weight;
 
     // compose both noises
-    
+
     // move the position along the normal and transform it
     vec3 newPosition = position * noise;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);

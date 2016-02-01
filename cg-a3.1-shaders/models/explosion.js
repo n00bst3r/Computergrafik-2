@@ -14,8 +14,6 @@ define(["jquery", "three", "shaders"],
 
             var scope = this;
 
-            var start = Date.now();
-
             // load explosion texture
             //
             // Loading textures is asynchronous. That means you the load function
