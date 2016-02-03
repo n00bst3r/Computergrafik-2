@@ -22,6 +22,7 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
         var HtmlController = function(scene) {
 
             var lastPlanet = undefined;
+            var lastExplosion = undefined;
 
             this.rotationSetter;
 
@@ -225,7 +226,7 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
                 scene.addMesh(planet.getMesh());
 
                 var aLight = new THREE.AmbientLight('#ADADAD');
-                var dLight = new THREE.DirectionalLight('#FFF8D1', 1);
+                var dLight = new THREE.DirectionalLight('#FFF8D1', 5);  //Konstruktor (Farbe, Intensität)
                 dLight.name = "dLight";
                 dLight.position.set(-1, 0, -0.3).normalize();
                 scene.addLight(aLight);
@@ -243,7 +244,28 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
                 //TODO Implement
                 var explosion = new Explosion(config);
                 scene.addMesh(explosion.getMesh());
+
+                lastExplosion = explosion;
             });
+
+            $('#nmbExplosionFrequencyScale').change(function() {
+                var val = parseFloat($('#nmbExplosionFrequencyScale').attr('value').replace( /,/,"." ));
+                console.log('Frequency changed to:', val)
+                lastExplosion.getMaterial().uniforms.freqScale.value = val;
+            });
+
+            $('#nmbExplosionColorScale').change(function() {
+                var val = parseFloat($('#nmbExplosionColorScale').attr('value').replace( /,/,"." ));
+                console.log('colorScale changed to:', val)
+                lastExplosion.getMaterial().uniforms.colorScale.value = val;
+            });
+
+            $('#nmbExplosionWeight').change(function() {
+                var val = parseFloat($('#nmbExplosionWeight').attr('value').replace( /,/,"." ));
+                console.log('Weight changed to:', val)
+                lastExplosion.getMaterial().uniforms.weight.value = val;
+            });
+
 
             $('#animationCheck').change(function() {
 
@@ -259,9 +281,9 @@ define(["jquery", "BufferGeometry", "random", "band","ellipsoid","pillowShape","
             $('#animationCheckPlanet').change(function() {
 
                 if ($('#animationCheck').is(':checked')) {
-                    this.rotationSetter = setInterval(function() {rotate(50); },100);
+                    lastPlanet.rotationSetter = setInterval(function() {rotate(50); },100);
                 }else{
-                    clearInterval(this.rotationSetter);
+                    clearInterval(lastPlanet.rotationSetter);
 
                 }
 

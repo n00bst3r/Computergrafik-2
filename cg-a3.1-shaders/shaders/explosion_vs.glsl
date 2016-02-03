@@ -1,4 +1,3 @@
-
 // we need two varying variables
 varying vec2 vUv;
 varying float noise;
@@ -150,8 +149,8 @@ void main() {
     // compute noise value using noise3d which is parameterized by a vec3, e.g.
     // a normal (scaled by a scalar controlling the frequency - high, low frequencies)
     // when adding a uniform variable 'time' to that value it is getting animated
-    
-    // Hint: the result of noise is used for the displacement and the access into the 
+
+    // Hint: the result of noise is used for the displacement and the access into the
     // texture in the fragment shader
 
     // compute displacement:
@@ -160,11 +159,11 @@ void main() {
     // transform the output correctly
 
     // assign varying variables for vertex shader
-    // 
+    //
 
     vUv = uv;
 
-    noise = -1.9 * noise3D(normal * freqScale + time);
+    noise = -1.9 * noise3D(normal * freqScale + time) * weight;
 
     // get a 3d noise using the position, low frequency
     float b = noise3D(position) * weight;
